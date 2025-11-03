@@ -1,6 +1,8 @@
 // Find Smudge - A Tabby Cat Adventure
 // Help Smudge complete quests around the house and neighborhood!
 
+const VERSION = 'v1.2.0';
+
 console.log('Starting Kaboom initialization...');
 
 kaboom({
@@ -150,37 +152,39 @@ scene('mainMenu', () => {
 
     onDraw(() => {
         // Title
-        drawTextShadow('FIND SMUDGE', width() / 2, 80, {
-            size: 48,
+        drawTextShadow('FIND SMUDGE', width() / 2, 70, {
+            size: 32,
             align: 'center',
             color: rgb(255, 153, 102),
         });
 
-        drawTextShadow('A Tabby Cat Adventure', width() / 2, 140, {
-            size: 20,
+        drawTextShadow('A Tabby Cat Adventure', width() / 2, 110, {
+            size: 16,
             align: 'center',
             color: rgb(180, 140, 100),
         });
 
         // Smudge (bobbing)
-        const smudgeY = 220 + getBobOffset();
+        const smudgeY = 180 + getBobOffset();
         drawSprite({
             sprite: 'smudge_idle',
             pos: vec2(width() / 2, smudgeY),
-            scale: 3,
+            scale: 2.5,
             anchor: 'center',
         });
 
         // Menu options
         for (let i = 0; i < menuOptions.length; i++) {
-            uiPill(menuOptions[i], 280 + i * 50, { selected: i === selectedIndex });
+            uiPill(menuOptions[i], 260 + i * 45, { selected: i === selectedIndex });
         }
 
-        // Controls hint
-        drawTextShadow('↑/↓ Navigate · A = Select', width() / 2, 290, {
-            size: 14,
+        // Version number at bottom
+        drawText({
+            text: VERSION,
+            pos: vec2(width() / 2, 420),
+            size: 10,
             align: 'center',
-            color: rgb(150, 120, 90),
+            color: rgb(180, 160, 140),
         });
     });
 
@@ -1307,51 +1311,52 @@ scene('iceCreamHeadache', () => {
         });
 
         if (phase === 'intro') {
-            drawTextShadow("Mom has a headache!", width() / 2, 100, {
-                size: 22,
+            drawTextShadow("Mom has a headache!", width() / 2, 60, {
+                size: 20,
                 align: 'center',
             });
-            drawTextShadow("Smudge wants to help", width() / 2, 135, {
-                size: 18,
-                align: 'center',
-            });
-            drawTextShadow("with his ice cream toy!", width() / 2, 160, {
-                size: 18,
-                align: 'center',
-            });
-            drawTextShadow("Move DOWN first to avoid dad!", width() / 2, 195, {
+            drawTextShadow("Smudge wants to help", width() / 2, 90, {
                 size: 16,
                 align: 'center',
-                color: rgb(255, 200, 100),
             });
-            drawTextShadow("Sneak under bed, climb to mom!", width() / 2, 215, {
+            drawTextShadow("with his ice cream toy!", width() / 2, 112, {
                 size: 16,
                 align: 'center',
-                color: rgb(255, 200, 100),
             });
 
-            // Smudge with ice cream (moved down slightly)
+            // Smudge with ice cream
             drawSprite({
                 sprite: 'ice_cream_cone',
-                pos: vec2(width() / 2 - 20, 295),
-                scale: 2.5,
+                pos: vec2(width() / 2 - 20, 190),
+                scale: 2,
                 anchor: 'center',
             });
 
             drawSprite({
                 sprite: 'smudge_idle',
-                pos: vec2(width() / 2 + 30, 320),
-                scale: 1.8,
+                pos: vec2(width() / 2 + 30, 210),
+                scale: 1.6,
                 anchor: 'center',
             });
 
-            drawTextShadow('ARROWS = Move · Slow & steady!', width() / 2, 280, {
+            drawTextShadow("DOWN to avoid dad!", width() / 2, 260, {
                 size: 14,
+                align: 'center',
+                color: rgb(255, 200, 100),
+            });
+            drawTextShadow("Sneak under bed to mom!", width() / 2, 280, {
+                size: 14,
+                align: 'center',
+                color: rgb(255, 200, 100),
+            });
+
+            drawTextShadow('ARROWS = Move · Slow & steady!', width() / 2, 310, {
+                size: 13,
                 align: 'center',
             });
 
-            drawTextShadow('Press A to start', width() / 2, 310, {
-                size: 16,
+            drawTextShadow('Press A to start', width() / 2, 340, {
+                size: 15,
                 align: 'center',
                 color: rgb(255, 153, 102),
             });

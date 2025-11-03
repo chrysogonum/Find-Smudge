@@ -806,13 +806,22 @@ scene('airTag', () => {
         });
 
         if (phase === 'intro') {
-            drawTextShadow('Oh no! Smudge escaped!', width() / 2, 180, {
+            drawTextShadow('Oh no!', width() / 2, 160, {
                 size: 28,
                 align: 'center',
                 color: rgb(200, 100, 100),
             });
-            drawTextShadow('The neighborhood needs to help find him!', width() / 2, 230, {
-                size: 20,
+            drawTextShadow('Smudge escaped!', width() / 2, 195, {
+                size: 24,
+                align: 'center',
+                color: rgb(200, 100, 100),
+            });
+            drawTextShadow('The neighborhood needs', width() / 2, 235, {
+                size: 18,
+                align: 'center',
+            });
+            drawTextShadow('to help find him!', width() / 2, 260, {
+                size: 18,
                 align: 'center',
             });
 
@@ -820,12 +829,12 @@ scene('airTag', () => {
             drawText({
                 text: '?',
                 pos: vec2(width() / 2 - 30, 300),
-                size: 120,
+                size: 100,
                 color: rgb(255, 153, 102),
             });
 
-            drawTextShadow('Press A to start searching', width() / 2, 480, {
-                size: 20,
+            drawTextShadow('Press A to start searching', width() / 2, 440, {
+                size: 18,
                 align: 'center',
                 color: rgb(140, 90, 60),
             });

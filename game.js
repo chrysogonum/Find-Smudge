@@ -805,18 +805,20 @@ scene('airTag', () => {
     let phase = 'intro'; // 'intro', 'searching', 'found', 'result'
     let neighborsAsked = 0;
     const totalNeighbors = 3;
-    let smudgeLocation = choose([0, 1, 2]); // Random hiding spot
     let selectedNeighbor = 0;
     let result = '';
 
     const neighbors = [
-        { name: 'Mrs. Chen', clue: 'saw something near the park', x: 150, y: 180 },
-        { name: 'Mr. Davis', clue: 'heard meowing by the bushes', x: 400, y: 160 },
-        { name: 'The Johnsons', clue: 'spotted a tabby by the garage', x: 650, y: 180 },
+        { name: 'Mrs. Chen', clue: 'I heard meowing from above!', x: 150, y: 180 },
+        { name: 'Mr. Davis', clue: 'Saw something furry up high', x: 400, y: 160 },
+        { name: 'The Johnsons', clue: 'Check the big oak tree!', x: 650, y: 180 },
     ];
 
+    let currentClue = ''; // Show clue when asking a neighbor
+    let clueTimer = 0;
+
     // Helper function to draw a cute house
-    function drawHouse(x, y, color, label, asked, isSmudgeHere) {
+    function drawHouse(x, y, color, label, asked) {
         // House body
         drawRect({
             pos: vec2(x - 30, y),
@@ -869,15 +871,44 @@ scene('airTag', () => {
                 color: rgb(100, 200, 100),
             });
         }
+    }
 
-        // Blinking Smudge if all neighbors asked and this is the location
-        if (isSmudgeHere && neighborsAsked >= totalNeighbors) {
+    // Helper function to draw a tree
+    function drawTree(x, y) {
+        // Tree trunk
+        drawRect({
+            pos: vec2(x - 10, y),
+            width: 20,
+            height: 60,
+            color: rgb(120, 80, 50),
+            radius: 2,
+        });
+
+        // Tree foliage (3 green circles)
+        drawCircle({
+            pos: vec2(x - 20, y - 20),
+            radius: 25,
+            color: rgb(80, 150, 80),
+        });
+        drawCircle({
+            pos: vec2(x + 20, y - 20),
+            radius: 25,
+            color: rgb(80, 150, 80),
+        });
+        drawCircle({
+            pos: vec2(x, y - 35),
+            radius: 30,
+            color: rgb(60, 140, 60),
+        });
+
+        // Blinking Smudge if all neighbors asked
+        if (neighborsAsked >= totalNeighbors) {
             const shouldShow = Math.floor(time() * 3) % 2 === 0; // Blink 1.5 times per second
             if (shouldShow) {
                 drawSprite({
                     sprite: 'smudge_idle',
-                    pos: vec2(x, y + 20),
-                    scale: 1.2,
+                    pos: vec2(x, y - 25),
+                    scale: 1.5,
                     anchor: 'center',
                 });
             }
@@ -970,22 +1001,46 @@ scene('airTag', () => {
                     neighbor.y,
                     houseColors[i],
                     neighbor.name,
-                    neighborsAsked > i,
-                    i === smudgeLocation
+                    neighborsAsked > i
                 );
             }
 
-            // Instruction below map
-            drawTextShadow('Ask neighbors for clues:', width() / 2, 285, {
-                size: 16,
-                align: 'center',
-            });
+            // Draw tree in the middle-right area
+            drawTree(550, 190);
+
+            // Show current clue if asking a neighbor
+            if (currentClue !== '') {
+                drawRect({
+                    pos: vec2(200, 285),
+                    width: 400,
+                    height: 45,
+                    color: rgb(255, 250, 220),
+                    outline: { color: rgb(255, 153, 102), width: 2 },
+                    radius: 8,
+                });
+                drawTextShadow(`"${currentClue}"`, width() / 2, 295, {
+                    size: 16,
+                    align: 'center',
+                    color: rgb(100, 80, 60),
+                });
+                drawTextShadow(`- ${neighbors[neighborsAsked - 1]?.name || ''}`, width() / 2, 315, {
+                    size: 13,
+                    align: 'center',
+                    color: rgb(140, 120, 100),
+                });
+            } else {
+                // Instruction when no clue showing
+                drawTextShadow('Ask neighbors for clues:', width() / 2, 300, {
+                    size: 16,
+                    align: 'center',
+                });
+            }
 
             // Neighbor selection buttons
             for (let i = 0; i < neighbors.length; i++) {
                 const asked = neighborsAsked > i;
                 const text = asked ? `${neighbors[i].name} ✓` : neighbors[i].name;
-                uiPill(text, 310 + i * 35, { selected: i === selectedNeighbor });
+                uiPill(text, 350 + i * 35, { selected: i === selectedNeighbor });
             }
 
             // Show instruction at bottom
@@ -1066,7 +1121,14 @@ scene('airTag', () => {
             phase = 'searching';
         } else if (phase === 'searching') {
             if (neighborsAsked <= selectedNeighbor) {
+                // Show the clue from this neighbor
+                currentClue = neighbors[neighborsAsked].clue;
                 neighborsAsked++;
+
+                // Clear the clue after 2.5 seconds
+                wait(2.5, () => {
+                    currentClue = '';
+                });
             }
         } else if (phase === 'result') {
             go('questComplete', { questName: 'Air Tag' });

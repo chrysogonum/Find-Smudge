@@ -145,11 +145,18 @@
             bottom: 20px;
             left: 0;
             right: 0;
-            display: flex;
+            display: none; /* Hidden by default */
             justify-content: space-between;
             padding: 0 20px;
             pointer-events: none;
             z-index: 1001;
+        }
+
+        /* Only show on mobile devices */
+        @media (max-width: 768px) {
+            #mobile-controls {
+                display: flex;
+            }
         }
 
         .control-group {
@@ -166,7 +173,7 @@
         }
 
         .btn {
-            background: rgba(255, 255, 255, 0.9);
+            background: rgba(255, 255, 255, 0.75);
             backdrop-filter: blur(8px);
             border: 3px solid var(--accent-2);
             border-radius: 12px;
@@ -197,9 +204,9 @@
             height: 60px;
         }
 
-        .btn-a { background: rgba(255, 153, 102, 0.9); }
-        .btn-b { background: rgba(255, 204, 153, 0.9); }
-        .btn-space { background: rgba(212, 165, 116, 0.9); }
+        .btn-a { background: rgba(255, 153, 102, 0.75); }
+        .btn-b { background: rgba(255, 204, 153, 0.75); }
+        .btn-space { background: rgba(212, 165, 116, 0.75); }
     </style>
 </head>
 <body>

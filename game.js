@@ -478,8 +478,8 @@ scene('laundryLeap', () => {
 
             // Instructions
             if (phase === 'positioning') {
-                drawTextShadow('← → to move · SPACE to JUMP!', width() / 2, 500, {
-                    size: 20,
+                drawTextShadow('← → to move · SPACE to JUMP!', width() / 2, 70, {
+                    size: 18,
                     align: 'center',
                     color: rgb(255, 153, 102),
                 });
@@ -540,7 +540,7 @@ scene('laundryLeap', () => {
                 });
             }
 
-            drawTextShadow('Press A to continue', width() / 2, 450, {
+            drawTextShadow('Press A to continue', width() / 2, 420, {
                 size: 18,
                 align: 'center',
             });
@@ -632,7 +632,7 @@ scene('martiniMondays', () => {
                 anchor: 'center',
             });
 
-            drawTextShadow('Press A to start searching', width() / 2, 480, {
+            drawTextShadow('Press A to start searching', width() / 2, 420, {
                 size: 20,
                 align: 'center',
                 color: rgb(140, 90, 60),
@@ -708,12 +708,12 @@ scene('martiniMondays', () => {
 
             // Split success message to avoid cutoff and sprite overlap
             if (result.includes('FOUND')) {
-                drawTextShadow('FOUND IT!', width() / 2, 460, {
+                drawTextShadow('FOUND IT!', width() / 2, 100, {
                     size: 24,
                     align: 'center',
                     color: resultColor,
                 });
-                drawTextShadow('Martini time! 🍸', width() / 2, 485, {
+                drawTextShadow('Martini time! 🍸', width() / 2, 130, {
                     size: 20,
                     align: 'center',
                     color: resultColor,
@@ -726,7 +726,7 @@ scene('martiniMondays', () => {
                 });
             }
 
-            drawTextShadow('Press A to continue', width() / 2, 430, {
+            drawTextShadow('Press A to continue', width() / 2, 420, {
                 size: 16,
                 align: 'center',
             });
@@ -987,7 +987,7 @@ scene('airTag', () => {
                 align: 'center',
             });
 
-            drawTextShadow('Press A to start searching', width() / 2, 440, {
+            drawTextShadow('Press A to start searching', width() / 2, 420, {
                 size: 18,
                 align: 'center',
                 color: rgb(140, 90, 60),
@@ -1083,13 +1083,13 @@ scene('airTag', () => {
 
             // Show instruction at bottom
             if (neighborsAsked >= totalNeighbors) {
-                drawTextShadow('Found him! Press SPACE to rescue!', width() / 2, 465, {
+                drawTextShadow('Found him! Press SPACE to rescue!', width() / 2, 420, {
                     size: 18,
                     align: 'center',
                     color: rgb(255, 153, 102),
                 });
             } else {
-                drawTextShadow('↑/↓ Choose · A Ask', width() / 2, 465, {
+                drawTextShadow('↑/↓ Choose · A Ask', width() / 2, 420, {
                     size: 14,
                     align: 'center',
                     color: rgb(140, 90, 60),
@@ -1109,7 +1109,7 @@ scene('airTag', () => {
                 anchor: 'center',
             });
 
-            drawTextShadow('There he is!', width() / 2, 450, {
+            drawTextShadow('There he is!', width() / 2, 420, {
                 size: 28,
                 align: 'center',
                 color: rgb(100, 200, 100),
@@ -1147,7 +1147,7 @@ scene('airTag', () => {
                 color: rgb(100, 200, 100),
             });
 
-            drawTextShadow('Press A to continue', width() / 2, 480, {
+            drawTextShadow('Press A to continue', width() / 2, 420, {
                 size: 18,
                 align: 'center',
             });
@@ -1313,7 +1313,7 @@ scene('iceCreamHeadache', () => {
                 align: 'center',
             });
 
-            drawTextShadow('Press A to start', width() / 2, 450, {
+            drawTextShadow('Press A to start', width() / 2, 420, {
                 size: 20,
                 align: 'center',
                 color: rgb(140, 90, 60),

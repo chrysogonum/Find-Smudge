@@ -42,26 +42,37 @@ window.smudgeInput = {
 
 // Set up mobile control button handlers
 function setupMobileControls() {
+    console.log('Setting up mobile controls...');
+
     function addButtonHandler(id, key) {
         const btn = document.getElementById(id);
-        if (!btn) return;
+        if (!btn) {
+            console.warn(`Button ${id} not found`);
+            return;
+        }
+
+        console.log(`Attaching handlers to ${id} for key ${key}`);
 
         // Press on touch/click start
         const pressHandler = (e) => {
             e.preventDefault();
+            e.stopPropagation();
+            console.log(`${key} pressed`);
             window.smudgeInput.press(key);
         };
 
         // Release on touch/click end
         const releaseHandler = (e) => {
             e.preventDefault();
+            e.stopPropagation();
+            console.log(`${key} released`);
             window.smudgeInput.release(key);
         };
 
-        // Touch events (mobile)
-        btn.addEventListener('touchstart', pressHandler);
-        btn.addEventListener('touchend', releaseHandler);
-        btn.addEventListener('touchcancel', releaseHandler);
+        // Touch events (mobile) - with passive: false to allow preventDefault
+        btn.addEventListener('touchstart', pressHandler, { passive: false });
+        btn.addEventListener('touchend', releaseHandler, { passive: false });
+        btn.addEventListener('touchcancel', releaseHandler, { passive: false });
 
         // Mouse events (desktop testing)
         btn.addEventListener('mousedown', pressHandler);
@@ -76,14 +87,14 @@ function setupMobileControls() {
     addButtonHandler('btn-a', 'enter');
     addButtonHandler('btn-b', 'escape');
     addButtonHandler('btn-space', 'space');
+
+    console.log('Mobile controls setup complete');
 }
 
-// Initialize mobile controls after DOM is ready
-if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', setupMobileControls);
-} else {
+// Wait for both Kaboom and DOM to be ready
+wait(0.1, () => {
     setupMobileControls();
-}
+});
 
 // Load all sprites
 loadSprite('smudge_idle', 'assets/sprites/smudge_idle.png');

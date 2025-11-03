@@ -151,7 +151,7 @@
 </head>
 <body>
     <div id="info">
-        Find Smudge <span class="chip">tabby adventure</span> · Arrows = Move · Enter = Select · ESC = Back
+        Find Smudge <span class="chip">tabby adventure</span> · D-Pad = Move · A = Select · B = Back
     </div>
     <div id="frame">
         <!-- Kaboom mounts here -->
@@ -183,29 +183,39 @@
     <script>
         function setupButton(id, key) {
             const btn = document.getElementById(id);
-            if (!btn) return;
+            if (!btn) {
+                console.warn('Button not found:', id);
+                return;
+            }
 
             btn.addEventListener('touchstart', function(e) {
                 e.preventDefault();
+                console.log('Touch pressed:', key);
                 window.smudgeInput.press(key);
             }, { passive: false });
 
             btn.addEventListener('touchend', function(e) {
                 e.preventDefault();
+                console.log('Touch released:', key);
                 window.smudgeInput.release(key);
             }, { passive: false });
 
             btn.addEventListener('mousedown', function(e) {
                 e.preventDefault();
+                console.log('Mouse pressed:', key);
                 window.smudgeInput.press(key);
             });
 
             btn.addEventListener('mouseup', function(e) {
                 e.preventDefault();
+                console.log('Mouse released:', key);
                 window.smudgeInput.release(key);
             });
+
+            console.log('Button setup complete:', id, '→', key);
         }
 
+        console.log('Starting mobile control setup...');
         setupButton('btn-up', 'up');
         setupButton('btn-down', 'down');
         setupButton('btn-left', 'left');
@@ -213,6 +223,7 @@
         setupButton('btn-a', 'enter');
         setupButton('btn-b', 'escape');
         setupButton('btn-space', 'space');
+        console.log('Mobile control setup complete!');
     </script>
 </body>
 </html>

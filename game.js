@@ -79,6 +79,7 @@ function onAnyKeyPress(key, callback) {
 
         // Only trigger on rising edge and once per frame
         if (isPressed && !wasPrevPressed && !handled) {
+            console.log('Virtual key triggered:', key);
             callback();
             handled = true;
         } else if (!isPressed) {

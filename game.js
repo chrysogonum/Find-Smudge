@@ -1314,23 +1314,23 @@ scene('iceCreamHeadache', () => {
         }
     });
 
-    // Continuous movement (hold down keys)
+    // Continuous movement (hold down keys) - faster movement!
     onUpdate(() => {
         if (phase === 'tiptoeing') {
             if (isAnyKeyDown('left')) {
-                smudgeX = Math.max(100, smudgeX - 50 * dt());
+                smudgeX = Math.max(100, smudgeX - 100 * dt());
                 noiseLevel = Math.min(100, noiseLevel + 15 * dt());
             }
             if (isAnyKeyDown('right')) {
-                smudgeX = Math.min(momX, smudgeX + 50 * dt());
+                smudgeX = Math.min(momX, smudgeX + 100 * dt());
                 noiseLevel = Math.min(100, noiseLevel + 15 * dt());
             }
             if (isAnyKeyDown('up')) {
-                smudgeY = Math.max(120, smudgeY - 50 * dt());
+                smudgeY = Math.max(120, smudgeY - 100 * dt());
                 noiseLevel = Math.min(100, noiseLevel + 15 * dt());
             }
             if (isAnyKeyDown('down')) {
-                smudgeY = Math.min(400, smudgeY + 50 * dt());
+                smudgeY = Math.min(400, smudgeY + 100 * dt());
                 noiseLevel = Math.min(100, noiseLevel + 15 * dt());
             }
         }

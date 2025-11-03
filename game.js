@@ -314,6 +314,7 @@ scene('laundryLeap', () => {
     const gravity = 800;
     let result = '';
     let temperature = 0;
+    let finalTemp = 0; // Store temp at landing for bonus calculation
     const perfectTemp = 100; // Start hotter so players have more time!
 
     onUpdate(() => {
@@ -332,8 +333,8 @@ scene('laundryLeap', () => {
                 smudgeX = Math.min(750, smudgeX + 200 * dt());
             }
 
-            // Temperature decreases over time (slower now - 5° per second)
-            temperature = Math.max(0, temperature - dt() * 5);
+            // Temperature decreases over time - more aggressive now! (8° per second)
+            temperature = Math.max(0, temperature - dt() * 8);
         } else if (phase === 'jumping') {
             // Smudge jumps!
             jumpSpeed += gravity * dt();
@@ -343,9 +344,21 @@ scene('laundryLeap', () => {
             // Check landing
             if (smudgeY >= 300) {
                 const distance = Math.abs(smudgeX - basketX);
+                finalTemp = Math.floor(temperature);
 
                 if (distance < 80 && temperature > 50) {
-                    result = 'SUCCESS! Perfect landing in warm laundry!';
+                    // Temperature bonus based on speed!
+                    let bonus = '';
+                    if (temperature >= 90) {
+                        bonus = 'ULTRA TOASTY! 🔥';
+                    } else if (temperature >= 75) {
+                        bonus = 'SUPER WARM! ⭐';
+                    } else if (temperature >= 60) {
+                        bonus = 'Nice & Cozy! ✨';
+                    } else {
+                        bonus = 'Still Warm!';
+                    }
+                    result = `SUCCESS! ${bonus}`;
                     gameState.player.completedQuests.add('laundry_leap');
                     saveGame();
                     sparkleBurst(vec2(basketX, 300), 30);
@@ -377,17 +390,22 @@ scene('laundryLeap', () => {
         });
 
         if (phase === 'intro') {
-            drawTextShadow('The dryer just finished!', width() / 2, 120, {
+            drawTextShadow('The dryer just finished!', width() / 2, 110, {
                 size: 22,
                 align: 'center',
             });
-            drawTextShadow('Help Smudge jump into', width() / 2, 160, {
+            drawTextShadow('Help Smudge jump into', width() / 2, 145, {
                 size: 18,
                 align: 'center',
             });
-            drawTextShadow('the warm laundry basket!', width() / 2, 185, {
+            drawTextShadow('the warm laundry basket!', width() / 2, 170, {
                 size: 18,
                 align: 'center',
+            });
+            drawTextShadow('⚡ Jump FAST for bonus!', width() / 2, 200, {
+                size: 16,
+                align: 'center',
+                color: rgb(255, 180, 100),
             });
 
             // Smudge waiting (centered, above controls)
@@ -489,18 +507,21 @@ scene('laundryLeap', () => {
 
             // Split longer messages to avoid cutoff
             if (result.includes('SUCCESS')) {
-                drawTextShadow('SUCCESS!', width() / 2, 340, {
+                // Extract bonus from result (after "SUCCESS! ")
+                const bonusText = result.replace('SUCCESS! ', '');
+
+                drawTextShadow('SUCCESS!', width() / 2, 320, {
                     size: 24,
                     align: 'center',
                     color: resultColor,
                 });
-                drawTextShadow('Perfect landing in', width() / 2, 370, {
-                    size: 20,
+                drawTextShadow(bonusText, width() / 2, 350, {
+                    size: 22,
                     align: 'center',
-                    color: resultColor,
+                    color: rgb(255, 180, 100),
                 });
-                drawTextShadow('warm laundry!', width() / 2, 395, {
-                    size: 20,
+                drawTextShadow(`${finalTemp}° warmth!`, width() / 2, 380, {
+                    size: 18,
                     align: 'center',
                     color: resultColor,
                 });

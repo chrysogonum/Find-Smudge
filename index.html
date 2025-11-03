@@ -115,6 +115,13 @@
             letter-spacing: .3px;
             z-index: 1000;
         }
+
+        /* Hide info bar on mobile */
+        @media (max-width: 768px) {
+            #info {
+                display: none;
+            }
+        }
         .chip {
             display: inline-block;
             padding: 4px 10px;

@@ -731,13 +731,14 @@ scene('airTag', () => {
                 color: rgb(140, 90, 60),
             });
         } else if (phase === 'searching') {
-            drawTextShadow(`Neighbors Asked: ${neighborsAsked}/${totalNeighbors}`, 20, 80, {
-                size: 20,
+            drawTextShadow(`Asked: ${neighborsAsked}/${totalNeighbors}`, width() / 2, 70, {
+                size: 18,
+                align: 'center',
                 color: rgb(255, 153, 102),
             });
 
-            drawTextShadow('Ask the neighbors for clues:', width() / 2, 150, {
-                size: 24,
+            drawTextShadow('Ask the neighbors for clues:', width() / 2, 130, {
+                size: 20,
                 align: 'center',
             });
 
@@ -745,21 +746,22 @@ scene('airTag', () => {
             for (let i = 0; i < neighbors.length; i++) {
                 const asked = neighborsAsked > i;
                 const text = asked ? `${neighbors[i].name} ✓` : neighbors[i].name;
-                uiPill(text, 220 + i * 60, { selected: i === selectedNeighbor });
+                uiPill(text, 180 + i * 60, { selected: i === selectedNeighbor });
             }
 
-            // Show clues collected
+            // Show clues collected (center, well above mobile controls)
             if (neighborsAsked > 0) {
-                drawTextShadow('Clues:', 20, 420, {
-                    size: 18,
+                drawTextShadow('Clues:', width() / 2, 370, {
+                    size: 16,
+                    align: 'center',
                     color: rgb(140, 90, 60),
                 });
 
                 for (let i = 0; i < neighborsAsked; i++) {
                     drawText({
                         text: `• ${neighbors[i].clue}`,
-                        pos: vec2(20, 450 + i * 25),
-                        size: 16,
+                        pos: vec2(width() / 2 - 140, 395 + i * 20),
+                        size: 13,
                         color: rgb(100, 140, 100),
                     });
                 }

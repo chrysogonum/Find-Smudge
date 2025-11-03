@@ -157,23 +157,35 @@
 
     <script>
         // Mobile control bindings
-        function pressVirtualKey(key) {
-            if (window.smudgeInput) {
-                window.smudgeInput.setPress(key);
-            }
-        }
-
         function addButtonHandler(id, key) {
             const btn = document.getElementById(id);
             if (!btn) return;
 
-            const handler = (e) => {
+            // Press on touch/click start
+            const pressHandler = (e) => {
                 e.preventDefault();
-                pressVirtualKey(key);
+                if (window.smudgeInput) {
+                    window.smudgeInput.press(key);
+                }
             };
 
-            btn.addEventListener('touchstart', handler);
-            btn.addEventListener('click', handler);
+            // Release on touch/click end
+            const releaseHandler = (e) => {
+                e.preventDefault();
+                if (window.smudgeInput) {
+                    window.smudgeInput.release(key);
+                }
+            };
+
+            // Touch events (mobile)
+            btn.addEventListener('touchstart', pressHandler);
+            btn.addEventListener('touchend', releaseHandler);
+            btn.addEventListener('touchcancel', releaseHandler);
+
+            // Mouse events (desktop testing)
+            btn.addEventListener('mousedown', pressHandler);
+            btn.addEventListener('mouseup', releaseHandler);
+            btn.addEventListener('mouseleave', releaseHandler);
         }
 
         addButtonHandler('btn-up', 'up');

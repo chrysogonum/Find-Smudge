@@ -10,21 +10,33 @@ kaboom({
 
 // Virtual button state for mobile touch controls
 window.smudgeInput = {
-    virtualPress: null,
-    pressHandled: false,
+    pressedKeys: {},
+    heldKeys: {},
 
-    setPress(key) {
-        this.virtualPress = key;
-        this.pressHandled = false;
+    // For button press (touch start)
+    press(key) {
+        this.pressedKeys[key] = true;
+        this.heldKeys[key] = true;
     },
 
-    getPress() {
-        return this.virtualPress;
+    // For button release (touch end)
+    release(key) {
+        this.heldKeys[key] = false;
     },
 
-    clearPress() {
-        this.virtualPress = null;
-        this.pressHandled = false;
+    // Check if key was just pressed this frame
+    isPressed(key) {
+        return this.pressedKeys[key] === true;
+    },
+
+    // Check if key is currently held
+    isDown(key) {
+        return this.heldKeys[key] === true;
+    },
+
+    // Clear pressed state (called each frame)
+    clearPressed() {
+        this.pressedKeys = {};
     }
 };
 
@@ -70,30 +82,33 @@ function loadGame() {
 // MOBILE INPUT SYSTEM
 // ===========================
 
-// Global update loop to handle virtual key presses
-let lastVirtualPress = null;
+// Global update loop to handle virtual key states
 onUpdate(() => {
-    const currentPress = window.smudgeInput.getPress();
-    if (currentPress && currentPress !== lastVirtualPress) {
-        lastVirtualPress = currentPress;
-        window.smudgeInput.clearPress();
-    } else if (!currentPress) {
-        lastVirtualPress = null;
-    }
+    // Clear pressed state each frame (after handlers have run)
+    window.smudgeInput.clearPressed();
 });
 
 // Enhanced key press handler that works with both keyboard and touch
 function onAnyKeyPress(key, callback) {
-    // Listen for keyboard input
+    // Keyboard handler
     onKeyPress(key, callback);
 
-    // Check for virtual input every frame
+    // Virtual button handler (checked each frame)
+    let wasPressed = false;
     onUpdate(() => {
-        if (lastVirtualPress === key) {
+        const isPressed = window.smudgeInput.isPressed(key);
+        if (isPressed && !wasPressed) {
             callback();
-            lastVirtualPress = null;
+            wasPressed = true;
+        } else if (!isPressed) {
+            wasPressed = false;
         }
     });
+}
+
+// Enhanced isKeyDown that works with both keyboard and touch
+function isAnyKeyDown(key) {
+    return isKeyDown(key) || window.smudgeInput.isDown(key);
 }
 
 // ===========================
@@ -1085,11 +1100,11 @@ scene('iceCreamHeadache', () => {
     // Continuous movement (hold down keys)
     onUpdate(() => {
         if (phase === 'tiptoeing') {
-            if (isKeyDown('left')) {
+            if (isAnyKeyDown('left')) {
                 smudgeX = Math.max(100, smudgeX - 50 * dt());
                 noiseLevel = Math.min(100, noiseLevel + 15 * dt());
             }
-            if (isKeyDown('right')) {
+            if (isAnyKeyDown('right')) {
                 smudgeX = Math.min(momX, smudgeX + 50 * dt());
                 noiseLevel = Math.min(100, noiseLevel + 15 * dt());
             }

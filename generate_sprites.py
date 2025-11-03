@@ -326,7 +326,7 @@ def draw_ice_cream_cone():
     return img
 
 def draw_mom_dad_bed():
-    """Mom and dad in bed"""
+    """Mom and dad in bed - Dad on LEFT (sleeping), Mom on RIGHT (awake with headache)"""
     img = Image.new('RGBA', (128, 128), COLORS['bg'])
     draw = ImageDraw.Draw(img)
 
@@ -336,22 +336,50 @@ def draw_mom_dad_bed():
     # Blanket
     draw.rectangle([15, 70, 113, 105], fill=(180, 200, 220))
 
-    # Mom (left side) - awake with headache
-    draw.ellipse([25, 65, 50, 90], fill=(230, 200, 180))  # Head
-    draw.ellipse([28, 75, 32, 79], fill=(100, 100, 100))  # Eye (closed, in pain)
-    draw.ellipse([40, 75, 44, 79], fill=(100, 100, 100))
+    # Dad (left side) - sleeping
+    # Hair (short dark hair)
+    draw.ellipse([23, 62, 52, 78], fill=(80, 60, 40))
 
-    # Headache indicator
-    draw.text((20, 55), "💢", fill=(255, 100, 100))
+    # Head
+    draw.ellipse([25, 65, 50, 90], fill=(220, 190, 170))
 
-    # Dad (right side) - sleeping
-    draw.ellipse([78, 70, 103, 95], fill=(220, 190, 170))  # Head
-    draw.ellipse([85, 80, 88, 83], fill=(0, 0, 0))  # Eye (closed)
-    draw.ellipse([95, 80, 98, 83], fill=(0, 0, 0))
+    # Neck/shoulders
+    draw.ellipse([28, 85, 47, 98], fill=(220, 190, 170))
 
-    # Zzz's
+    # Eyes (closed, peaceful)
+    draw.arc([30, 77, 36, 81], 0, 180, fill=(0, 0, 0), width=2)  # Left eye closed
+    draw.arc([40, 77, 46, 81], 0, 180, fill=(0, 0, 0), width=2)  # Right eye closed
+
+    # Slight smile (sleeping peacefully)
+    draw.arc([32, 82, 43, 88], 0, 180, fill=(180, 150, 130), width=1)
+
+    # Zzz's for dad (on left side)
     for i, size in enumerate([12, 10, 8]):
-        draw.text((105 + i*8, 65 - i*8), "Z", fill=(150, 150, 200))
+        draw.text((8 + i*8, 58 - i*8), "Z", fill=(150, 150, 200))
+
+    # Mom (right side) - awake with headache
+    # Hair (flowing brown hair)
+    draw.ellipse([71, 50, 83, 70], fill=(120, 80, 50))  # Left side hair
+    draw.ellipse([98, 50, 110, 70], fill=(120, 80, 50))  # Right side hair
+    draw.ellipse([75, 48, 106, 68], fill=(120, 80, 50))  # Top hair
+
+    # Head
+    draw.ellipse([78, 55, 103, 80], fill=(230, 200, 180))
+
+    # Neck/shoulders visible above blanket
+    draw.ellipse([81, 75, 100, 88], fill=(230, 200, 180))
+
+    # Eyes (tired, open eyes)
+    draw.ellipse([81, 65, 87, 71], fill=(255, 255, 255))  # Left eye white
+    draw.ellipse([94, 65, 100, 71], fill=(255, 255, 255))  # Right eye white
+    draw.ellipse([83, 67, 85, 69], fill=(100, 150, 180))  # Left pupil (blue)
+    draw.ellipse([96, 67, 98, 69], fill=(100, 150, 180))  # Right pupil (blue)
+
+    # Nose
+    draw.ellipse([89, 72, 92, 75], fill=(220, 180, 170))
+
+    # Slight smile (relieved to get ice cream)
+    draw.arc([85, 72, 96, 78], 0, 180, fill=(200, 150, 140), width=1)
 
     return img
 

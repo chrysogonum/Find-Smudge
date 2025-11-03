@@ -884,9 +884,12 @@ scene('airTag', () => {
 scene('iceCreamHeadache', () => {
     console.log('Ice Cream Headache scene started!');
     let phase = 'intro'; // 'intro', 'tiptoeing', 'result'
-    let smudgeX = 100;
-    const momX = 600;
-    const dadX = 400;
+    let smudgeX = 100;  // Start on left side
+    let smudgeY = 200;  // Start at bed level - lined up with dad! Must move down first!
+    const bedCenterX = 400; // Bed in middle of screen
+    const momX = 510;   // Mom on RIGHT side of bed (adjusted to be more over her head)
+    const dadX = 340;   // Dad on LEFT side of bed
+    const momHeadY = 140; // Mom's head position (target)
     let noiseLevel = 0;
     let result = '';
     let hasIceCream = false;
@@ -896,19 +899,32 @@ scene('iceCreamHeadache', () => {
             // Noise level decreases over time (if quiet)
             noiseLevel = Math.max(0, noiseLevel - dt() * 20);
 
-            // Check if reached mom
-            if (smudgeX >= momX - 50) {
+            // Check if collided with dad - dad is at bed level (Y~200) on the left side (X~340)
+            // Collision happens if Smudge is near dad's position AND above the safe zone (Y < 320)
+            const distanceToDadX = Math.abs(smudgeX - dadX);
+            const distanceToDadY = Math.abs(smudgeY - 200);
+            if (distanceToDadX < 70 && distanceToDadY < 90 && smudgeY < 320) {
+                result = 'Oh no! You bumped into dad and woke him up!';
+                phase = 'result';
+                return;
+            }
+
+            // Check if reached mom's HEAD (specifically on her head, not to the right)
+            // Mom's head is at X=530, Y=140
+            const distanceToMomHead = Math.sqrt(Math.pow(smudgeX - momX, 2) + Math.pow(smudgeY - momHeadY, 2));
+            // Tighter condition: must be close to her head specifically
+            if (distanceToMomHead < 45) {
                 // Success!
                 result = 'SUCCESS! Ice cream "helps" with headaches! 🍦';
                 gameState.player.completedQuests.add('ice_cream_headache');
                 saveGame();
                 phase = 'result';
-                sparkleBurst(vec2(momX, 200), 30);
+                sparkleBurst(vec2(momX, momHeadY), 30);
             }
 
-            // Check if woke up dad
+            // Check if woke up dad with noise
             if (noiseLevel > 80) {
-                result = 'Oh no! You woke up dad! Abort mission!';
+                result = 'Oh no! Too noisy! You woke up dad!';
                 phase = 'result';
             }
         }
@@ -943,32 +959,37 @@ scene('iceCreamHeadache', () => {
                 size: 18,
                 align: 'center',
             });
-            drawTextShadow("Tiptoe past sleeping dad!", width() / 2, 195, {
+            drawTextShadow("Move DOWN first to avoid dad!", width() / 2, 195, {
+                size: 16,
+                align: 'center',
+                color: rgb(255, 200, 100),
+            });
+            drawTextShadow("Sneak under bed, climb to mom!", width() / 2, 215, {
                 size: 16,
                 align: 'center',
                 color: rgb(255, 200, 100),
             });
 
-            // Smudge with ice cream
+            // Smudge with ice cream (moved down slightly)
             drawSprite({
                 sprite: 'ice_cream_cone',
-                pos: vec2(width() / 2 - 20, 280),
+                pos: vec2(width() / 2 - 20, 295),
                 scale: 2.5,
                 anchor: 'center',
             });
 
             drawSprite({
                 sprite: 'smudge_idle',
-                pos: vec2(width() / 2 + 30, 305),
+                pos: vec2(width() / 2 + 30, 320),
                 scale: 1.8,
                 anchor: 'center',
             });
 
-            drawTextShadow('LEFT/RIGHT = Move', width() / 2, 380, {
+            drawTextShadow('ARROWS = Move', width() / 2, 390, {
                 size: 16,
                 align: 'center',
             });
-            drawTextShadow('Slow & steady!', width() / 2, 400, {
+            drawTextShadow('Slow & steady!', width() / 2, 410, {
                 size: 16,
                 align: 'center',
             });
@@ -1002,20 +1023,87 @@ scene('iceCreamHeadache', () => {
                 color: rgb(255, 255, 255),
             });
 
-            // Mom and Dad in bed
+            // Mom and Dad in bed (Dad on left, Mom on right)
             drawSprite({
                 sprite: 'mom_dad_bed',
-                pos: vec2(momX - 100, 200),
+                pos: vec2(bedCenterX, 200),
                 scale: 2,
                 anchor: 'center',
             });
 
-            // Smudge tiptoeing position (declare first, used below)
-            const smudgeY = 380 + Math.sin(time() * 8) * 2; // Gentle tiptoeing bounce
+            // Visual indicator for target zone (mom's head) - subtle pulsing circle
+            if (phase === 'tiptoeing') {
+                const pulseSize = 40 + Math.sin(time() * 3) * 5;
+                drawCircle({
+                    pos: vec2(momX, momHeadY),
+                    radius: pulseSize,
+                    color: rgb(100, 255, 100),
+                    opacity: 0.15,
+                });
+                drawCircle({
+                    pos: vec2(momX, momHeadY),
+                    radius: pulseSize,
+                    outline: { color: rgb(150, 255, 150), width: 2 },
+                    opacity: 0.3,
+                });
+
+                // Blinking lightning bolts to indicate headache
+                const shouldBlink = Math.floor(time() * 3) % 2 === 0; // Blink 3 times per second
+                if (shouldBlink) {
+                    const boltColor = rgb(255, 220, 100);
+                    // Left lightning bolt
+                    const leftX = momX - 40;
+                    const leftY = momHeadY - 20;
+                    drawLine({
+                        p1: vec2(leftX, leftY),
+                        p2: vec2(leftX - 5, leftY + 10),
+                        width: 3,
+                        color: boltColor,
+                    });
+                    drawLine({
+                        p1: vec2(leftX - 5, leftY + 10),
+                        p2: vec2(leftX, leftY + 20),
+                        width: 3,
+                        color: boltColor,
+                    });
+                    drawLine({
+                        p1: vec2(leftX, leftY + 20),
+                        p2: vec2(leftX - 3, leftY + 30),
+                        width: 3,
+                        color: boltColor,
+                    });
+
+                    // Right lightning bolt
+                    const rightX = momX + 40;
+                    const rightY = momHeadY - 20;
+                    drawLine({
+                        p1: vec2(rightX, rightY),
+                        p2: vec2(rightX + 5, rightY + 10),
+                        width: 3,
+                        color: boltColor,
+                    });
+                    drawLine({
+                        p1: vec2(rightX + 5, rightY + 10),
+                        p2: vec2(rightX, rightY + 20),
+                        width: 3,
+                        color: boltColor,
+                    });
+                    drawLine({
+                        p1: vec2(rightX, rightY + 20),
+                        p2: vec2(rightX + 3, rightY + 30),
+                        width: 3,
+                        color: boltColor,
+                    });
+                }
+            }
+
+            // Smudge visual position with gentle bounce
+            const smudgeDisplayY = smudgeY + Math.sin(time() * 8) * 2; // Gentle tiptoeing bounce
 
             // Ice cream cone (if Smudge has it)
-            if (hasIceCream || smudgeX >= momX - 50) {
-                const coneY = smudgeX >= momX - 50 ? 140 : smudgeY - 40; // On mom's head if arrived
+            const atMomsHead = (smudgeX >= momX - 50 && smudgeY <= momHeadY + 30);
+            if (hasIceCream || atMomsHead) {
+                const coneY = atMomsHead ? momHeadY - 40 : smudgeDisplayY - 40; // On mom's head if arrived
                 drawSprite({
                     sprite: 'ice_cream_cone',
                     pos: vec2(smudgeX + 20, coneY),
@@ -1027,17 +1115,28 @@ scene('iceCreamHeadache', () => {
             // Smudge tiptoeing sprite
             drawSprite({
                 sprite: phase === 'tiptoeing' ? 'smudge_idle' : (result.includes('SUCCESS') ? 'smudge_idle' : 'smudge_searching'),
-                pos: vec2(smudgeX, smudgeY),
+                pos: vec2(smudgeX, smudgeDisplayY),
                 scale: 2,
                 anchor: 'center',
             });
 
             if (phase === 'tiptoeing') {
-                drawTextShadow('Tiptoe slowly... LEFT/RIGHT to move', width() / 2, 500, {
+                drawTextShadow('Move DOWN! Stay low under bed, climb to mom!', width() / 2, 500, {
                     size: 16,
                     align: 'center',
                     color: rgb(200, 200, 220),
                 });
+
+                // Distance indicator (helps player know how close they are)
+                const distanceToMomHead = Math.sqrt(Math.pow(smudgeX - momX, 2) + Math.pow(smudgeY - momHeadY, 2));
+                if (distanceToMomHead < 100) {
+                    const proximityText = distanceToMomHead < 45 ? '⭐ Right here!' : 'Getting close...';
+                    drawTextShadow(proximityText, width() / 2, 520, {
+                        size: 14,
+                        align: 'center',
+                        color: rgb(150, 255, 150),
+                    });
+                }
 
                 drawTextShadow('ESC = Back', width() / 2, 540, {
                     size: 14,
@@ -1045,14 +1144,34 @@ scene('iceCreamHeadache', () => {
                 });
             } else if (phase === 'result') {
                 const resultColor = result.includes('SUCCESS') ? rgb(100, 200, 100) : rgb(255, 150, 100);
-                drawTextShadow(result, width() / 2, 480, {
-                    size: 24,
-                    align: 'center',
-                    color: resultColor,
-                });
 
-                drawTextShadow('Press A to continue', width() / 2, 540, {
-                    size: 20,
+                if (result.includes('SUCCESS')) {
+                    drawTextShadow('SUCCESS!', width() / 2, 240, {
+                        size: 24,
+                        align: 'center',
+                        color: resultColor,
+                    });
+                    drawTextShadow('Ice cream "helps"', width() / 2, 270, {
+                        size: 18,
+                        align: 'center',
+                        color: resultColor,
+                    });
+                    drawTextShadow('with headaches! 🍦', width() / 2, 295, {
+                        size: 18,
+                        align: 'center',
+                        color: resultColor,
+                    });
+                } else {
+                    // Failure messages (shorter, fit on fewer lines)
+                    drawTextShadow(result, width() / 2, 250, {
+                        size: 18,
+                        align: 'center',
+                        color: resultColor,
+                    });
+                }
+
+                drawTextShadow('Press A to continue', width() / 2, 340, {
+                    size: 16,
                     align: 'center',
                 });
             }
@@ -1086,6 +1205,20 @@ scene('iceCreamHeadache', () => {
         }
     });
 
+    onAnyKeyPress('up', () => {
+        if (phase === 'tiptoeing') {
+            smudgeY = Math.max(120, smudgeY - 3); // Can climb up to mom's head level
+            noiseLevel += 2; // Moving makes noise
+        }
+    });
+
+    onAnyKeyPress('down', () => {
+        if (phase === 'tiptoeing') {
+            smudgeY = Math.min(400, smudgeY + 3); // Stay above bottom UI
+            noiseLevel += 2; // Moving makes noise
+        }
+    });
+
     // Continuous movement (hold down keys)
     onUpdate(() => {
         if (phase === 'tiptoeing') {
@@ -1095,6 +1228,14 @@ scene('iceCreamHeadache', () => {
             }
             if (isAnyKeyDown('right')) {
                 smudgeX = Math.min(momX, smudgeX + 50 * dt());
+                noiseLevel = Math.min(100, noiseLevel + 15 * dt());
+            }
+            if (isAnyKeyDown('up')) {
+                smudgeY = Math.max(120, smudgeY - 50 * dt());
+                noiseLevel = Math.min(100, noiseLevel + 15 * dt());
+            }
+            if (isAnyKeyDown('down')) {
+                smudgeY = Math.min(400, smudgeY + 50 * dt());
                 noiseLevel = Math.min(100, noiseLevel + 15 * dt());
             }
         }

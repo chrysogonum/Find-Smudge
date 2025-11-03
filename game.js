@@ -1010,6 +1010,9 @@ scene('iceCreamHeadache', () => {
                 anchor: 'center',
             });
 
+            // Smudge tiptoeing position (declare first, used below)
+            const smudgeY = 380 + Math.sin(time() * 8) * 2; // Gentle tiptoeing bounce
+
             // Ice cream cone (if Smudge has it)
             if (hasIceCream || smudgeX >= momX - 50) {
                 const coneY = smudgeX >= momX - 50 ? 140 : smudgeY - 40; // On mom's head if arrived
@@ -1021,8 +1024,7 @@ scene('iceCreamHeadache', () => {
                 });
             }
 
-            // Smudge tiptoeing
-            const smudgeY = 380 + Math.sin(time() * 8) * 2; // Gentle tiptoeing bounce
+            // Smudge tiptoeing sprite
             drawSprite({
                 sprite: phase === 'tiptoeing' ? 'smudge_idle' : (result.includes('SUCCESS') ? 'smudge_idle' : 'smudge_searching'),
                 pos: vec2(smudgeX, smudgeY),

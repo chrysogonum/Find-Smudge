@@ -1,9 +1,9 @@
 // Find Smudge - A Tabby Cat Adventure
 // Help Smudge complete quests around the house and neighborhood!
 
-const VERSION = 'v1.4.8';
+const VERSION = 'v1.3.6';
 
-// alert('VERSION 3 LOADED - CASE-INSENSITIVE FIX!'); // Debug alert disabled
+alert('VERSION 2 LOADED - TEXT AT Y=80, SMUDGE AT Y=400!');
 console.log('Starting Kaboom initialization...');
 
 // Detect if using touch device
@@ -417,12 +417,12 @@ scene('laundryLeap', () => {
                 align: 'center',
                 color: rgb(92, 64, 51),
             });
-            drawTextShadow('Help Smudge jump into the warm basket!', width() / 2, 110, {
+            drawTextShadow('Help Smudge jump into the warm laundry basket!', width() / 2, 110, {
                 size: 16,
                 align: 'center',
                 color: rgb(92, 64, 51),
             });
-            drawTextShadow('⚡ Jump FAST for bonus points!', width() / 2, 135, {
+            drawTextShadow('⚡ Jump FAST for bonus! Nobody likes cold laundry!', width() / 2, 135, {
                 size: 14,
                 align: 'center',
                 color: rgb(255, 153, 102),
@@ -520,17 +520,17 @@ scene('laundryLeap', () => {
                 // Extract bonus from result (after "SUCCESS! ")
                 const bonusText = result.replace('SUCCESS! ', '');
 
-                drawTextShadow('SUCCESS!', width() / 2, 80, {
+                drawTextShadow('SUCCESS!', width() / 2, 240, {
                     size: 22,
                     align: 'center',
                     color: resultColor,
                 });
-                drawTextShadow(bonusText, width() / 2, 110, {
+                drawTextShadow(bonusText, width() / 2, 270, {
                     size: 20,
                     align: 'center',
                     color: rgb(255, 180, 100),
                 });
-                drawTextShadow(`${finalTemp}° warmth!`, width() / 2, 140, {
+                drawTextShadow(`${finalTemp}° warmth!`, width() / 2, 295, {
                     size: 16,
                     align: 'center',
                     color: resultColor,
@@ -689,13 +689,12 @@ scene('martiniMondays', () => {
                 align: 'center',
             });
         } else if (phase === 'result') {
-            // Case-insensitive check for success
-            const isFound = typeof result === 'string' && /found/i.test(result);
-            const resultColor = isFound ? rgb(100, 200, 100) : rgb(255, 150, 100);
+            const resultColor = result.includes('FOUND') ? rgb(100, 200, 100) : rgb(255, 150, 100);
 
-            if (isFound) {
+            if (result.includes('FOUND')) {
                 // Success message at very top of screen
-                drawTextShadow('Found it! Martini Time! Bottoms up!', width() / 2, 80, {
+                console.log('Drawing success text at Y=80, Smudge at Y=400');
+                drawTextShadow('[Y=80] Found it! Martini Time! Bottoms up!', width() / 2, 80, {
                     size: 18,
                     align: 'center',
                     color: resultColor,
@@ -764,7 +763,7 @@ scene('martiniMondays', () => {
             }
 
             // Failure message
-            if (!isFound) {
+            if (!result.includes('FOUND')) {
                 drawTextShadow(result, width() / 2, 270, {
                     size: 18,
                     align: 'center',
@@ -815,8 +814,7 @@ scene('martiniMondays', () => {
                 }
             }
         } else if (phase === 'result') {
-            const isFound = /found/i.test(result);
-            if (isFound) {
+            if (result.includes('FOUND')) {
                 go('questComplete', { questName: 'Martini Mondays' });
             } else {
                 go('overworld');
@@ -1125,9 +1123,9 @@ scene('airTag', () => {
             });
 
             // Draw neighborhood map
-            drawTextShadow('Neighborhood Map:', 500, 105, {
+            drawTextShadow('Neighborhood Map:', width() / 2, 105, {
                 size: 16,
-                align: 'left',
+                align: 'center',
                 color: rgb(140, 90, 60),
             });
 
@@ -1208,16 +1206,16 @@ scene('airTag', () => {
 
             // Show instruction at bottom
             if (neighborsAsked >= totalNeighbors) {
-                drawTextShadow(`Found him! Press ${getKeyName('action')} to rescue!`, width() / 2, 270, {
+                drawTextShadow(`Found him! Press ${getKeyName('action')} to rescue!`, width() / 2, 70, {
                     size: 16,
                     align: 'center',
                     color: rgb(100, 200, 100),
                 });
             } else {
-                drawTextShadow(`${getKeyName('navigate')} Choose · ${getKeyName('select')} Ask`, 60, 105, {
+                drawTextShadow(`${getKeyName('navigate')} Choose · ${getKeyName('select')} Ask`, width() / 2, 70, {
                     size: 14,
-                    align: 'left',
-                    color: rgb(255, 153, 102),
+                    align: 'center',
+                    color: rgb(140, 90, 60),
                 });
             }
         } else if (phase === 'found') {
@@ -1242,7 +1240,7 @@ scene('airTag', () => {
 
             // Auto-advance after a moment
             wait(2, () => {
-                result = 'FOUND';
+                result = 'FOUND! The neighborhood worked together! 🏡';
                 gameState.player.completedQuests.add('air_tag');
                 saveGame();
                 phase = 'result';
@@ -1255,19 +1253,14 @@ scene('airTag', () => {
                 anchor: 'center',
             });
 
-            // Split success message to avoid cutoff - place below Smudge
-            drawTextShadow('We found smudge!', width() / 2, 380, {
+            // Split success message to avoid cutoff
+            drawTextShadow('FOUND! The neighborhood worked together! 🏡', width() / 2, 280, {
                 size: 18,
                 align: 'center',
                 color: rgb(100, 200, 100),
             });
-            drawTextShadow('No Greenies for you, Mr. Escape Artist!', width() / 2, 410, {
-                size: 16,
-                align: 'center',
-                color: rgb(100, 200, 100),
-            });
 
-            drawTextShadow(`Press ${getKeyName('select')} to continue`, width() / 2, 445, {
+            drawTextShadow(`Press ${getKeyName('select')} to continue`, width() / 2, 310, {
                 size: 16,
                 align: 'center',
             });

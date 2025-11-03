@@ -146,8 +146,8 @@
             z-index: 1001;
         }
 
-        /* Only show on mobile devices */
-        @media (max-width: 768px), (max-height: 500px) {
+        /* Only show on touch devices */
+        @media (pointer: coarse) {
             #mobile-controls {
                 display: block;
             }
@@ -224,7 +224,7 @@
     <div id="frame">
         <!-- Kaboom mounts here -->
         <script src="https://unpkg.com/kaboom@3000.0.1/dist/kaboom.js"></script>
-        <script src="game.js"></script>
+        <script src="game.js?v=20251103-1243"></script>
     </div>
 
     <!-- Mobile Touch Controls -->

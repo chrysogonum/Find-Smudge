@@ -809,9 +809,9 @@ scene('airTag', () => {
     let result = '';
 
     const neighbors = [
-        { name: 'Mrs. Chen', clue: 'I heard meowing from above!', x: 150, y: 180 },
-        { name: 'Mr. Davis', clue: 'Saw something furry up high', x: 400, y: 160 },
-        { name: 'The Johnsons', clue: 'Check the big oak tree!', x: 650, y: 180 },
+        { name: 'Aunt Claudia', clue: 'I heard meowing from above!', x: 150, y: 180 },
+        { name: 'Jason and Amy', clue: 'Saw something furry up high', x: 400, y: 160 },
+        { name: 'The Peters', clue: 'Check the big oak tree!', x: 650, y: 180 },
     ];
 
     let currentClue = ''; // Show clue when asking a neighbor

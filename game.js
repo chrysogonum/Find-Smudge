@@ -40,6 +40,51 @@ window.smudgeInput = {
     }
 };
 
+// Set up mobile control button handlers
+function setupMobileControls() {
+    function addButtonHandler(id, key) {
+        const btn = document.getElementById(id);
+        if (!btn) return;
+
+        // Press on touch/click start
+        const pressHandler = (e) => {
+            e.preventDefault();
+            window.smudgeInput.press(key);
+        };
+
+        // Release on touch/click end
+        const releaseHandler = (e) => {
+            e.preventDefault();
+            window.smudgeInput.release(key);
+        };
+
+        // Touch events (mobile)
+        btn.addEventListener('touchstart', pressHandler);
+        btn.addEventListener('touchend', releaseHandler);
+        btn.addEventListener('touchcancel', releaseHandler);
+
+        // Mouse events (desktop testing)
+        btn.addEventListener('mousedown', pressHandler);
+        btn.addEventListener('mouseup', releaseHandler);
+        btn.addEventListener('mouseleave', releaseHandler);
+    }
+
+    addButtonHandler('btn-up', 'up');
+    addButtonHandler('btn-down', 'down');
+    addButtonHandler('btn-left', 'left');
+    addButtonHandler('btn-right', 'right');
+    addButtonHandler('btn-a', 'enter');
+    addButtonHandler('btn-b', 'escape');
+    addButtonHandler('btn-space', 'space');
+}
+
+// Initialize mobile controls after DOM is ready
+if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', setupMobileControls);
+} else {
+    setupMobileControls();
+}
+
 // Load all sprites
 loadSprite('smudge_idle', 'assets/sprites/smudge_idle.png');
 loadSprite('smudge_jumping', 'assets/sprites/smudge_jumping.png');

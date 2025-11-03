@@ -313,7 +313,7 @@ scene('laundryLeap', () => {
     const gravity = 800;
     let result = '';
     let temperature = 0;
-    const perfectTemp = 75;
+    const perfectTemp = 100; // Start hotter so players have more time!
 
     onUpdate(() => {
         if (phase === 'positioning') {
@@ -323,8 +323,8 @@ scene('laundryLeap', () => {
                 basketSpeed *= -1;
             }
 
-            // Temperature decreases over time
-            temperature = Math.max(0, temperature - dt() * 10);
+            // Temperature decreases over time (slower now - 5° per second)
+            temperature = Math.max(0, temperature - dt() * 5);
         } else if (phase === 'jumping') {
             // Smudge jumps!
             jumpSpeed += gravity * dt();
@@ -415,13 +415,29 @@ scene('laundryLeap', () => {
                 anchor: 'center',
             });
 
-            // Temperature indicator
-            const tempColor = temperature > 70 ? rgb(255, 200, 100) : temperature > 40 ? rgb(255, 220, 150) : rgb(200, 200, 200);
+            // Temperature indicator with bar
+            const tempColor = temperature > 70 ? rgb(255, 150, 50) : temperature > 50 ? rgb(255, 220, 100) : rgb(150, 150, 150);
+
+            // Temperature bar
+            drawRect({
+                pos: vec2(20, 80),
+                width: 200,
+                height: 20,
+                color: rgb(100, 100, 100),
+                radius: 10,
+            });
+            drawRect({
+                pos: vec2(20, 80),
+                width: (temperature / 100) * 200,
+                height: 20,
+                color: tempColor,
+                radius: 10,
+            });
             drawText({
                 text: `Warmth: ${Math.floor(temperature)}°`,
-                pos: vec2(basketX - 40, 220),
-                size: 16,
-                color: tempColor,
+                pos: vec2(25, 82),
+                size: 14,
+                color: rgb(255, 255, 255),
             });
 
             // Smudge
@@ -457,14 +473,45 @@ scene('laundryLeap', () => {
             });
 
             const resultColor = result.includes('SUCCESS') ? rgb(100, 200, 100) : rgb(255, 150, 100);
-            drawTextShadow(result, width() / 2, 450, {
-                size: 24,
-                align: 'center',
-                color: resultColor,
-            });
 
-            drawTextShadow('Press A to continue', width() / 2, 520, {
-                size: 20,
+            // Split longer messages to avoid cutoff
+            if (result.includes('SUCCESS')) {
+                drawTextShadow('SUCCESS!', width() / 2, 340, {
+                    size: 24,
+                    align: 'center',
+                    color: resultColor,
+                });
+                drawTextShadow('Perfect landing in', width() / 2, 370, {
+                    size: 20,
+                    align: 'center',
+                    color: resultColor,
+                });
+                drawTextShadow('warm laundry!', width() / 2, 395, {
+                    size: 20,
+                    align: 'center',
+                    color: resultColor,
+                });
+            } else if (result.includes('cooled down')) {
+                drawTextShadow('Landed... but the', width() / 2, 360, {
+                    size: 20,
+                    align: 'center',
+                    color: resultColor,
+                });
+                drawTextShadow('laundry cooled down!', width() / 2, 390, {
+                    size: 20,
+                    align: 'center',
+                    color: resultColor,
+                });
+            } else {
+                drawTextShadow(result, width() / 2, 370, {
+                    size: 20,
+                    align: 'center',
+                    color: resultColor,
+                });
+            }
+
+            drawTextShadow('Press A to continue', width() / 2, 450, {
+                size: 18,
                 align: 'center',
             });
         }
@@ -623,14 +670,28 @@ scene('martiniMondays', () => {
                 });
             }
 
-            drawTextShadow(result, width() / 2, 480, {
-                size: 24,
-                align: 'center',
-                color: resultColor,
-            });
+            // Split success message to avoid cutoff and sprite overlap
+            if (result.includes('FOUND')) {
+                drawTextShadow('FOUND IT!', width() / 2, 460, {
+                    size: 24,
+                    align: 'center',
+                    color: resultColor,
+                });
+                drawTextShadow('Martini time! 🍸', width() / 2, 485, {
+                    size: 20,
+                    align: 'center',
+                    color: resultColor,
+                });
+            } else {
+                drawTextShadow(result, width() / 2, 360, {
+                    size: 18,
+                    align: 'center',
+                    color: resultColor,
+                });
+            }
 
-            drawTextShadow('Press A to continue', width() / 2, 540, {
-                size: 20,
+            drawTextShadow('Press A to continue', width() / 2, 430, {
+                size: 16,
                 align: 'center',
             });
         }
@@ -829,14 +890,25 @@ scene('airTag', () => {
                 anchor: 'center',
             });
 
-            drawTextShadow(result, width() / 2, 450, {
+            // Split success message to avoid cutoff
+            drawTextShadow('FOUND!', width() / 2, 390, {
                 size: 24,
                 align: 'center',
                 color: rgb(100, 200, 100),
             });
-
-            drawTextShadow('Press A to continue', width() / 2, 520, {
+            drawTextShadow('The neighborhood', width() / 2, 420, {
                 size: 20,
+                align: 'center',
+                color: rgb(100, 200, 100),
+            });
+            drawTextShadow('worked together! 🏡', width() / 2, 445, {
+                size: 20,
+                align: 'center',
+                color: rgb(100, 200, 100),
+            });
+
+            drawTextShadow('Press A to continue', width() / 2, 480, {
+                size: 18,
                 align: 'center',
             });
         }

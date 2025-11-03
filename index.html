@@ -4,6 +4,30 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Find Smudge - A Tabby Cat Adventure</title>
+
+    <!-- Define input system FIRST before anything else -->
+    <script>
+        window.smudgeInput = {
+            pressedKeys: {},
+            heldKeys: {},
+            press: function(key) {
+                this.pressedKeys[key] = true;
+                this.heldKeys[key] = true;
+            },
+            release: function(key) {
+                this.heldKeys[key] = false;
+            },
+            isPressed: function(key) {
+                return this.pressedKeys[key] === true;
+            },
+            isDown: function(key) {
+                return this.heldKeys[key] === true;
+            },
+            clearPressed: function() {
+                this.pressedKeys = {};
+            }
+        };
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;700&family=Nunito:wght@400;700;900&display=swap" rel="stylesheet">
@@ -155,6 +179,40 @@
         </div>
     </div>
 
-    <!-- Mobile control setup is in game.js after smudgeInput is defined -->
+    <!-- Mobile control setup -->
+    <script>
+        function setupButton(id, key) {
+            const btn = document.getElementById(id);
+            if (!btn) return;
+
+            btn.addEventListener('touchstart', function(e) {
+                e.preventDefault();
+                window.smudgeInput.press(key);
+            }, { passive: false });
+
+            btn.addEventListener('touchend', function(e) {
+                e.preventDefault();
+                window.smudgeInput.release(key);
+            }, { passive: false });
+
+            btn.addEventListener('mousedown', function(e) {
+                e.preventDefault();
+                window.smudgeInput.press(key);
+            });
+
+            btn.addEventListener('mouseup', function(e) {
+                e.preventDefault();
+                window.smudgeInput.release(key);
+            });
+        }
+
+        setupButton('btn-up', 'up');
+        setupButton('btn-down', 'down');
+        setupButton('btn-left', 'left');
+        setupButton('btn-right', 'right');
+        setupButton('btn-a', 'enter');
+        setupButton('btn-b', 'escape');
+        setupButton('btn-space', 'space');
+    </script>
 </body>
 </html>

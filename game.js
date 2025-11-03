@@ -1259,8 +1259,19 @@ scene('iceCreamHeadache', () => {
             });
 
             if (phase === 'tiptoeing') {
-                drawTextShadow('Move DOWN! Stay low under bed, climb to mom!', width() / 2, 500, {
+                // Instructions - split into multiple lines, positioned higher
+                drawTextShadow('Move DOWN first!', width() / 2, 420, {
                     size: 16,
+                    align: 'center',
+                    color: rgb(255, 200, 100),
+                });
+                drawTextShadow('Stay low under bed,', width() / 2, 440, {
+                    size: 14,
+                    align: 'center',
+                    color: rgb(200, 200, 220),
+                });
+                drawTextShadow('then climb to mom!', width() / 2, 458, {
+                    size: 14,
                     align: 'center',
                     color: rgb(200, 200, 220),
                 });
@@ -1269,17 +1280,12 @@ scene('iceCreamHeadache', () => {
                 const distanceToMomHead = Math.sqrt(Math.pow(smudgeX - momX, 2) + Math.pow(smudgeY - momHeadY, 2));
                 if (distanceToMomHead < 100) {
                     const proximityText = distanceToMomHead < 45 ? '⭐ Right here!' : 'Getting close...';
-                    drawTextShadow(proximityText, width() / 2, 520, {
+                    drawTextShadow(proximityText, width() / 2, 480, {
                         size: 14,
                         align: 'center',
                         color: rgb(150, 255, 150),
                     });
                 }
-
-                drawTextShadow('ESC = Back', width() / 2, 540, {
-                    size: 14,
-                    align: 'center',
-                });
             } else if (phase === 'result') {
                 const resultColor = result.includes('SUCCESS') ? rgb(100, 200, 100) : rgb(255, 150, 100);
 

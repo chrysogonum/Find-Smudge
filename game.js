@@ -381,57 +381,45 @@ scene('laundryLeap', () => {
         });
 
         if (phase === 'intro') {
-            drawTextShadow('The dryer just finished!', width() / 2, 110, {
-                size: 22,
+            drawTextShadow('The dryer just finished!', width() / 2, 80, {
+                size: 20,
                 align: 'center',
+                color: rgb(92, 64, 51),
             });
-            drawTextShadow('Help Smudge jump into', width() / 2, 145, {
-                size: 18,
-                align: 'center',
-            });
-            drawTextShadow('the warm laundry basket!', width() / 2, 170, {
-                size: 18,
-                align: 'center',
-            });
-            drawTextShadow('⚡ Jump FAST for bonus!', width() / 2, 200, {
+            drawTextShadow('Help Smudge jump into the warm laundry basket!', width() / 2, 110, {
                 size: 16,
                 align: 'center',
-                color: rgb(255, 180, 100),
+                color: rgb(92, 64, 51),
             });
-            drawTextShadow("Nobody likes cold laundry!", width() / 2, 220, {
+            drawTextShadow('⚡ Jump FAST for bonus! Nobody likes cold laundry!', width() / 2, 135, {
                 size: 14,
                 align: 'center',
-                color: rgb(200, 150, 120),
+                color: rgb(255, 153, 102),
             });
 
             // Smudge waiting (centered, above controls)
             drawSprite({
                 sprite: 'smudge_idle',
-                pos: vec2(width() / 2, 280),
+                pos: vec2(width() / 2, 220),
                 scale: 2,
                 anchor: 'center',
             });
 
-            drawTextShadow('Use ← → to move', width() / 2, 350, {
-                size: 16,
+            drawTextShadow('Use ← → to move', width() / 2, 300, {
+                size: 15,
                 align: 'center',
-                color: rgb(255, 153, 102),
+                color: rgb(92, 64, 51),
             });
-            drawTextShadow('Press SPACE (␣) to', width() / 2, 370, {
-                size: 16,
+            drawTextShadow('Press SPACE (␣) to jump!', width() / 2, 325, {
+                size: 15,
                 align: 'center',
-                color: rgb(255, 153, 102),
-            });
-            drawTextShadow('jump into basket!', width() / 2, 390, {
-                size: 16,
-                align: 'center',
-                color: rgb(255, 153, 102),
+                color: rgb(92, 64, 51),
             });
 
-            drawTextShadow('Press A to start', width() / 2, 440, {
-                size: 20,
+            drawTextShadow('Press A to start', width() / 2, 370, {
+                size: 18,
                 align: 'center',
-                color: rgb(140, 90, 60),
+                color: rgb(255, 153, 102),
             });
         } else if (phase === 'positioning' || phase === 'jumping') {
             // Laundry basket

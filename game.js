@@ -93,7 +93,7 @@ function sparkleBurst(p, n = 16) {
 function drawTextShadow(txt, x, y, opts = {}) {
     const size = opts.size || 24;
     const align = opts.align || 'left';
-    const col = opts.color || rgb(255, 255, 255);
+    const col = opts.color || rgb(92, 64, 51); // Dark brown for readability
 
     // Main text only (shadow removed for clarity)
     drawText({

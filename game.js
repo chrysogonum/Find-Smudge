@@ -810,10 +810,79 @@ scene('airTag', () => {
     let result = '';
 
     const neighbors = [
-        { name: 'Neighbor A', clue: 'saw something near the park' },
-        { name: 'Neighbor B', clue: 'heard meowing by the bushes' },
-        { name: 'Neighbor C', clue: 'spotted a tabby by the garage' },
+        { name: 'Mrs. Chen', clue: 'saw something near the park', x: 150, y: 180 },
+        { name: 'Mr. Davis', clue: 'heard meowing by the bushes', x: 400, y: 160 },
+        { name: 'The Johnsons', clue: 'spotted a tabby by the garage', x: 650, y: 180 },
     ];
+
+    // Helper function to draw a cute house
+    function drawHouse(x, y, color, label, asked, isSmudgeHere) {
+        // House body
+        drawRect({
+            pos: vec2(x - 30, y),
+            width: 60,
+            height: 50,
+            color: color,
+            radius: 4,
+        });
+
+        // Roof
+        drawPolygon({
+            pts: [vec2(x, y - 25), vec2(x - 40, y), vec2(x + 40, y)],
+            color: rgb(180, 100, 80),
+        });
+
+        // Door
+        drawRect({
+            pos: vec2(x - 10, y + 30),
+            width: 20,
+            height: 20,
+            color: rgb(100, 60, 40),
+            radius: 2,
+        });
+
+        // Window
+        drawRect({
+            pos: vec2(x + 10, y + 10),
+            width: 12,
+            height: 12,
+            color: rgb(200, 220, 255),
+            radius: 2,
+        });
+
+        // Label above house
+        drawText({
+            text: label,
+            pos: vec2(x, y - 40),
+            size: 11,
+            color: rgb(80, 80, 100),
+            align: 'center',
+            anchor: 'center',
+        });
+
+        // Checkmark if asked
+        if (asked) {
+            drawText({
+                text: '✓',
+                pos: vec2(x + 30, y - 10),
+                size: 20,
+                color: rgb(100, 200, 100),
+            });
+        }
+
+        // Blinking Smudge if all neighbors asked and this is the location
+        if (isSmudgeHere && neighborsAsked >= totalNeighbors) {
+            const shouldShow = Math.floor(time() * 3) % 2 === 0; // Blink 1.5 times per second
+            if (shouldShow) {
+                drawSprite({
+                    sprite: 'smudge_idle',
+                    pos: vec2(x, y + 20),
+                    scale: 1.2,
+                    anchor: 'center',
+                });
+            }
+        }
+    }
 
     onDraw(() => {
         // Background
@@ -871,46 +940,66 @@ scene('airTag', () => {
                 color: rgb(255, 153, 102),
             });
 
-            drawTextShadow('Ask the neighbors for clues:', width() / 2, 130, {
-                size: 20,
+            // Draw neighborhood map
+            drawTextShadow('Neighborhood Map:', width() / 2, 105, {
+                size: 16,
+                align: 'center',
+                color: rgb(140, 90, 60),
+            });
+
+            // Draw grass background for map area
+            drawRect({
+                pos: vec2(50, 125),
+                width: 700,
+                height: 140,
+                color: rgb(180, 220, 160),
+                radius: 8,
+            });
+
+            // Draw houses
+            const houseColors = [
+                rgb(255, 220, 200),
+                rgb(220, 230, 255),
+                rgb(255, 255, 220),
+            ];
+
+            for (let i = 0; i < neighbors.length; i++) {
+                const neighbor = neighbors[i];
+                drawHouse(
+                    neighbor.x,
+                    neighbor.y,
+                    houseColors[i],
+                    neighbor.name,
+                    neighborsAsked > i,
+                    i === smudgeLocation
+                );
+            }
+
+            // Instruction below map
+            drawTextShadow('Ask neighbors for clues:', width() / 2, 285, {
+                size: 16,
                 align: 'center',
             });
 
-            // Neighbor options
+            // Neighbor selection buttons
             for (let i = 0; i < neighbors.length; i++) {
                 const asked = neighborsAsked > i;
                 const text = asked ? `${neighbors[i].name} ✓` : neighbors[i].name;
-                uiPill(text, 180 + i * 60, { selected: i === selectedNeighbor });
+                uiPill(text, 310 + i * 35, { selected: i === selectedNeighbor });
             }
 
-            // Show clues collected (center, well above mobile controls)
-            if (neighborsAsked > 0) {
-                drawTextShadow('Clues:', width() / 2, 370, {
-                    size: 16,
-                    align: 'center',
-                    color: rgb(140, 90, 60),
-                });
-
-                for (let i = 0; i < neighborsAsked; i++) {
-                    drawText({
-                        text: `• ${neighbors[i].clue}`,
-                        pos: vec2(width() / 2 - 140, 395 + i * 20),
-                        size: 13,
-                        color: rgb(100, 140, 100),
-                    });
-                }
-            }
-
+            // Show instruction at bottom
             if (neighborsAsked >= totalNeighbors) {
-                drawTextShadow('All neighbors asked! Press SPACE to find Smudge!', width() / 2, height() - 40, {
+                drawTextShadow('Found him! Press SPACE to rescue!', width() / 2, 465, {
                     size: 18,
                     align: 'center',
                     color: rgb(255, 153, 102),
                 });
             } else {
-                drawTextShadow('↑/↓ Navigate · ENTER Ask · ESC Back', width() / 2, height() - 30, {
-                    size: 16,
+                drawTextShadow('↑/↓ Choose · A Ask', width() / 2, 465, {
+                    size: 14,
                     align: 'center',
+                    color: rgb(140, 90, 60),
                 });
             }
         } else if (phase === 'found') {

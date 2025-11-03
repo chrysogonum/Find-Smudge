@@ -1,7 +1,7 @@
 // Find Smudge - A Tabby Cat Adventure
 // Help Smudge complete quests around the house and neighborhood!
 
-const VERSION = 'v1.5.5';
+const VERSION = 'v1.5.7';
 
 // alert('VERSION 3 LOADED - CASE-INSENSITIVE FIX!'); // Debug alert disabled
 console.log('Starting Kaboom initialization...');
@@ -259,8 +259,8 @@ scene('overworld', () => {
         });
 
         // Title
-        drawTextShadow('QUEST HUB', width() / 2, 40, {
-            size: 36,
+        drawTextShadow("SMUDGE'S ADVENTURES", width() / 2, 40, {
+            size: 30,
             align: 'center',
             color: rgb(255, 153, 102),
         });

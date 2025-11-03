@@ -369,31 +369,42 @@ scene('laundryLeap', () => {
         });
 
         if (phase === 'intro') {
-            drawTextShadow('The dryer just finished!', width() / 2, 200, {
-                size: 24,
+            drawTextShadow('The dryer just finished!', width() / 2, 120, {
+                size: 22,
                 align: 'center',
             });
-            drawTextShadow('Help Smudge jump into the warm laundry basket!', width() / 2, 240, {
-                size: 20,
+            drawTextShadow('Help Smudge jump into', width() / 2, 160, {
+                size: 18,
                 align: 'center',
             });
-            drawTextShadow('Press SPACE when basket is close!', width() / 2, 300, {
-                size: 20,
+            drawTextShadow('the warm laundry basket!', width() / 2, 185, {
+                size: 18,
+                align: 'center',
+            });
+
+            // Smudge waiting (centered, above controls)
+            drawSprite({
+                sprite: 'smudge_idle',
+                pos: vec2(width() / 2, 280),
+                scale: 2,
+                anchor: 'center',
+            });
+
+            drawTextShadow('Press SPACE (␣) when', width() / 2, 360, {
+                size: 16,
                 align: 'center',
                 color: rgb(255, 153, 102),
             });
-            drawTextShadow('Press A to start', width() / 2, 400, {
-                size: 24,
+            drawTextShadow('basket is close!', width() / 2, 380, {
+                size: 16,
                 align: 'center',
-                color: rgb(140, 90, 60),
+                color: rgb(255, 153, 102),
             });
 
-            // Smudge waiting
-            drawSprite({
-                sprite: 'smudge_idle',
-                pos: vec2(200, 450),
-                scale: 2,
-                anchor: 'center',
+            drawTextShadow('Press A to start', width() / 2, 440, {
+                size: 20,
+                align: 'center',
+                color: rgb(140, 90, 60),
             });
         } else if (phase === 'positioning' || phase === 'jumping') {
             // Laundry basket

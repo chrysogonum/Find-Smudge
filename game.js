@@ -1002,11 +1002,11 @@ scene('iceCreamHeadache', () => {
     console.log('Ice Cream Headache scene started!');
     let phase = 'intro'; // 'intro', 'tiptoeing', 'result'
     let smudgeX = 100;  // Start on left side
-    let smudgeY = 200;  // Start at bed level - lined up with dad! Must move down first!
+    let smudgeY = 150;  // Start at bed level - lined up with dad! Must move down first!
     const bedCenterX = 400; // Bed in middle of screen
     const momX = 510;   // Mom on RIGHT side of bed (adjusted to be more over her head)
     const dadX = 340;   // Dad on LEFT side of bed
-    const momHeadY = 140; // Mom's head position (target)
+    const momHeadY = 90; // Mom's head position (target)
     let noiseLevel = 0;
     let result = '';
     let hasIceCream = false;
@@ -1143,7 +1143,7 @@ scene('iceCreamHeadache', () => {
             // Mom and Dad in bed (Dad on left, Mom on right)
             drawSprite({
                 sprite: 'mom_dad_bed',
-                pos: vec2(bedCenterX, 200),
+                pos: vec2(bedCenterX, 150),
                 scale: 2,
                 anchor: 'center',
             });

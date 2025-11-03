@@ -531,20 +531,24 @@ scene('martiniMondays', () => {
         });
 
         if (phase === 'intro') {
-            drawTextShadow("Smudge lost his martini glass toy!", width() / 2, 180, {
-                size: 24,
+            drawTextShadow("Smudge lost his", width() / 2, 170, {
+                size: 22,
                 align: 'center',
             });
-            drawTextShadow('Where could it be?', width() / 2, 220, {
-                size: 20,
+            drawTextShadow("martini glass toy!", width() / 2, 200, {
+                size: 22,
+                align: 'center',
+            });
+            drawTextShadow('Where could it be?', width() / 2, 240, {
+                size: 18,
                 align: 'center',
             });
 
             // Smudge searching
             drawSprite({
                 sprite: 'smudge_searching',
-                pos: vec2(width() / 2, 320),
-                scale: 3,
+                pos: vec2(width() / 2, 350),
+                scale: 2.5,
                 anchor: 'center',
             });
 

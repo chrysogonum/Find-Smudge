@@ -307,6 +307,7 @@ scene('laundryLeap', () => {
     let phase = 'intro'; // 'intro', 'positioning', 'jumping', 'result'
     let basketX = 600;
     let basketSpeed = 150;
+    let smudgeX = 200; // Smudge can now move left and right!
     let smudgeY = 450;
     let jumpProgress = 0;
     let jumpSpeed = 0;
@@ -323,6 +324,14 @@ scene('laundryLeap', () => {
                 basketSpeed *= -1;
             }
 
+            // Smudge can move left and right!
+            if (isAnyKeyDown('left')) {
+                smudgeX = Math.max(50, smudgeX - 200 * dt());
+            }
+            if (isAnyKeyDown('right')) {
+                smudgeX = Math.min(750, smudgeX + 200 * dt());
+            }
+
             // Temperature decreases over time (slower now - 5° per second)
             temperature = Math.max(0, temperature - dt() * 5);
         } else if (phase === 'jumping') {
@@ -333,7 +342,6 @@ scene('laundryLeap', () => {
 
             // Check landing
             if (smudgeY >= 300) {
-                const smudgeX = 200;
                 const distance = Math.abs(smudgeX - basketX);
 
                 if (distance < 80 && temperature > 50) {
@@ -390,12 +398,17 @@ scene('laundryLeap', () => {
                 anchor: 'center',
             });
 
-            drawTextShadow('Press SPACE (␣) when', width() / 2, 360, {
+            drawTextShadow('Use ← → to move', width() / 2, 350, {
                 size: 16,
                 align: 'center',
                 color: rgb(255, 153, 102),
             });
-            drawTextShadow('basket is close!', width() / 2, 380, {
+            drawTextShadow('Press SPACE (␣) to', width() / 2, 370, {
+                size: 16,
+                align: 'center',
+                color: rgb(255, 153, 102),
+            });
+            drawTextShadow('jump into basket!', width() / 2, 390, {
                 size: 16,
                 align: 'center',
                 color: rgb(255, 153, 102),
@@ -444,15 +457,15 @@ scene('laundryLeap', () => {
             const sprite = phase === 'jumping' ? 'smudge_jumping' : 'smudge_idle';
             drawSprite({
                 sprite: sprite,
-                pos: vec2(200, smudgeY),
+                pos: vec2(smudgeX, smudgeY),
                 scale: 2,
                 anchor: 'center',
             });
 
             // Instructions
             if (phase === 'positioning') {
-                drawTextShadow('Press SPACE to JUMP!', width() / 2, 500, {
-                    size: 24,
+                drawTextShadow('← → to move · SPACE to JUMP!', width() / 2, 500, {
+                    size: 20,
                     align: 'center',
                     color: rgb(255, 153, 102),
                 });

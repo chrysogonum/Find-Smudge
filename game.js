@@ -1,7 +1,7 @@
 // Find Smudge - A Tabby Cat Adventure
 // Help Smudge complete quests around the house and neighborhood!
 
-const VERSION = 'v1.4.8';
+const VERSION = 'v1.5.4';
 
 // alert('VERSION 3 LOADED - CASE-INSENSITIVE FIX!'); // Debug alert disabled
 console.log('Starting Kaboom initialization...');
@@ -417,12 +417,12 @@ scene('laundryLeap', () => {
                 align: 'center',
                 color: rgb(92, 64, 51),
             });
-            drawTextShadow('Help Smudge jump into the warm basket!', width() / 2, 110, {
+            drawTextShadow('Help Smudge hide in the laundry basket.', width() / 2, 110, {
                 size: 16,
                 align: 'center',
                 color: rgb(92, 64, 51),
             });
-            drawTextShadow('⚡ Jump FAST for bonus points!', width() / 2, 135, {
+            drawTextShadow('Jump FAST for maximal warmth and coziness.', width() / 2, 135, {
                 size: 14,
                 align: 'center',
                 color: rgb(255, 153, 102),
@@ -701,56 +701,57 @@ scene('martiniMondays', () => {
                     color: resultColor,
                 });
 
-                // Draw martini glass with code (like 🍸) - right side
-                const glassX = width() / 2 + 150;
-                const glassY = 350;
+                // Draw TIPPED OVER martini glass - center
+                const glassX = width() / 2 + 80;
+                const glassY = 400;
 
-                // Glass bowl (inverted triangle - wide at top)
+                // Tipped glass bowl (triangle on its side, opening pointing right)
                 drawPolygon({
                     pts: [
-                        vec2(-50, -35),  // Top left
-                        vec2(50, -35),   // Top right
-                        vec2(0, 35),     // Bottom point
+                        vec2(-35, 0),     // Point (left side, was bottom)
+                        vec2(10, -40),    // Top edge (was left)
+                        vec2(10, 40),     // Bottom edge (was right)
                     ],
                     pos: vec2(glassX, glassY),
                     color: rgb(200, 240, 255),
                     outline: { color: rgb(100, 150, 200), width: 4 },
                 });
 
-                // Stem
+                // Stem (horizontal, pointing left)
                 drawRect({
-                    pos: vec2(glassX - 3, glassY + 35),
-                    width: 6,
-                    height: 45,
+                    pos: vec2(glassX - 70, glassY - 3),
+                    width: 35,
+                    height: 6,
                     color: rgb(150, 180, 200),
                 });
 
-                // Base
+                // Base (on far left)
                 drawCircle({
-                    pos: vec2(glassX, glassY + 85),
-                    radius: 22,
+                    pos: vec2(glassX - 75, glassY),
+                    radius: 18,
                     color: rgb(150, 180, 200),
                 });
 
-                // Olive
+                // Spilled liquid puddle (flowing out to the right)
+                drawEllipse({
+                    pos: vec2(glassX + 50, glassY + 15),
+                    radiusX: 55,
+                    radiusY: 30,
+                    color: rgb(180, 220, 230),
+                    opacity: 0.7,
+                });
+
+                // Olive rolled out into the puddle
                 drawCircle({
-                    pos: vec2(glassX + 12, glassY - 8),
-                    radius: 7,
+                    pos: vec2(glassX + 40, glassY + 5),
+                    radius: 6,
                     color: rgb(100, 150, 80),
                 });
 
-                // Toothpick
-                drawLine({
-                    p1: vec2(glassX + 12, glassY - 15),
-                    p2: vec2(glassX + 12, glassY - 30),
-                    width: 2,
-                    color: rgb(200, 180, 140),
-                });
-
-                // Smudge on LEFT side, well separated
+                // Smudge next to the spilled liquid, licking it
                 drawSprite({
                     sprite: 'smudge_idle',
-                    pos: vec2(width() / 2 - 150, 400),
+                    pos: vec2(glassX + 90, glassY + 35),
                     scale: 2,
                     anchor: 'center',
                 });
@@ -852,12 +853,13 @@ scene('airTag', () => {
     let result = '';
 
     const neighbors = [
-        { name: 'Aunt Claudia and Uncle D', clue: 'I heard meowing from above!', x: 150, y: 180 },
-        { name: 'Jason and Amy', clue: 'Saw something furry up high', x: 400, y: 160 },
-        { name: 'The Peters', clue: 'Check the big oak tree!', x: 650, y: 180 },
+        { name: 'Aunt Claudia and Uncle D', clue: 'I heard meowing from above!', x: 150, y: 180, asked: false },
+        { name: 'Jason and Amy', clue: 'Saw something furry up high', x: 400, y: 160, asked: false },
+        { name: 'The Peters', clue: 'Check the big oak tree!', x: 650, y: 180, asked: false },
     ];
 
     let currentClue = ''; // Show clue when asking a neighbor
+    let currentClueNeighbor = ''; // Track which neighbor gave the current clue
     let clueTimer = 0;
 
     // Helper function to draw a cute house
@@ -1154,7 +1156,7 @@ scene('airTag', () => {
                     neighbor.y,
                     houseColors[i],
                     neighbor.name,
-                    neighborsAsked > i
+                    neighbor.asked
                 );
             }
 
@@ -1163,8 +1165,7 @@ scene('airTag', () => {
 
             // Neighbor selection buttons - more spaced for desktop
             for (let i = 0; i < neighbors.length; i++) {
-                const asked = neighborsAsked > i;
-                const text = asked ? `${neighbors[i].name} ✓` : neighbors[i].name;
+                const text = neighbors[i].asked ? `${neighbors[i].name} ✓` : neighbors[i].name;
                 uiPill(text, 300 + i * 50, { selected: i === selectedNeighbor });
             }
 
@@ -1187,7 +1188,7 @@ scene('airTag', () => {
                     color: rgb(60, 50, 40),
                 });
                 drawText({
-                    text: `- ${neighbors[neighborsAsked - 1]?.name || ''}`,
+                    text: `- ${currentClueNeighbor}`,
                     pos: vec2(width() / 2, 500),
                     size: 14,
                     align: 'center',
@@ -1208,11 +1209,15 @@ scene('airTag', () => {
 
             // Show instruction at bottom
             if (neighborsAsked >= totalNeighbors) {
-                drawTextShadow(`Found him! Press ${getKeyName('action')} to rescue!`, width() / 2, 270, {
-                    size: 16,
-                    align: 'center',
-                    color: rgb(100, 200, 100),
-                });
+                // Blink the message to make it more obvious
+                const blinkOn = Math.floor(time() * 2) % 2 === 0;
+                if (blinkOn) {
+                    drawTextShadow(`Found him! Press ${getKeyName('action')} to rescue!`, width() / 2, 270, {
+                        size: 18,
+                        align: 'center',
+                        color: rgb(100, 200, 100),
+                    });
+                }
             } else {
                 drawTextShadow(`${getKeyName('navigate')} Choose · ${getKeyName('select')} Ask`, 60, 105, {
                     size: 14,
@@ -1256,7 +1261,7 @@ scene('airTag', () => {
             });
 
             // Split success message to avoid cutoff - place below Smudge
-            drawTextShadow('We found smudge!', width() / 2, 380, {
+            drawTextShadow('We found Smudge!', width() / 2, 380, {
                 size: 18,
                 align: 'center',
                 color: rgb(100, 200, 100),
@@ -1278,14 +1283,17 @@ scene('airTag', () => {
         if (phase === 'intro') {
             phase = 'searching';
         } else if (phase === 'searching') {
-            if (neighborsAsked <= selectedNeighbor) {
-                // Show the clue from this neighbor
-                currentClue = neighbors[neighborsAsked].clue;
+            if (!neighbors[selectedNeighbor].asked) {
+                // Show the clue from the SELECTED neighbor
+                currentClue = neighbors[selectedNeighbor].clue;
+                currentClueNeighbor = neighbors[selectedNeighbor].name;
+                neighbors[selectedNeighbor].asked = true;
                 neighborsAsked++;
 
                 // Clear the clue after 2.5 seconds
                 wait(2.5, () => {
                     currentClue = '';
+                    currentClueNeighbor = '';
                 });
             }
         } else if (phase === 'result') {

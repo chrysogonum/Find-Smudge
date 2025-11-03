@@ -1,7 +1,7 @@
 // Find Smudge - A Tabby Cat Adventure
 // Help Smudge complete quests around the house and neighborhood!
 
-const VERSION = 'v1.2.0';
+const VERSION = 'v1.2.1';
 
 console.log('Starting Kaboom initialization...');
 
@@ -271,8 +271,8 @@ scene('overworld', () => {
         }
 
         // Instructions
-        drawTextShadow('↑/↓ Navigate · A = Select · B = Back', width() / 2, 190, {
-            size: 14,
+        drawTextShadow('↑/↓ Navigate · A = Select', width() / 2, 190, {
+            size: 13,
             align: 'center',
             color: rgb(150, 120, 90),
         });
@@ -1339,19 +1339,19 @@ scene('iceCreamHeadache', () => {
                 anchor: 'center',
             });
 
-            drawTextShadow("DOWN to avoid dad!", width() / 2, 260, {
-                size: 14,
+            drawTextShadow("Go DOWN to avoid dad", width() / 2, 260, {
+                size: 13,
                 align: 'center',
                 color: rgb(255, 200, 100),
             });
-            drawTextShadow("Sneak under bed to mom!", width() / 2, 280, {
-                size: 14,
+            drawTextShadow("Sneak under bed to mom", width() / 2, 280, {
+                size: 13,
                 align: 'center',
                 color: rgb(255, 200, 100),
             });
 
-            drawTextShadow('ARROWS = Move · Slow & steady!', width() / 2, 310, {
-                size: 13,
+            drawTextShadow('ARROWS = Move · Slow!', width() / 2, 310, {
+                size: 12,
                 align: 'center',
             });
 

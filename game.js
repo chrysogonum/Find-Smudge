@@ -1,7 +1,7 @@
 // Find Smudge - A Tabby Cat Adventure
 // Help Smudge complete quests around the house and neighborhood!
 
-const VERSION = 'v1.5.4';
+const VERSION = 'v1.5.5';
 
 // alert('VERSION 3 LOADED - CASE-INSENSITIVE FIX!'); // Debug alert disabled
 console.log('Starting Kaboom initialization...');
@@ -447,6 +447,12 @@ scene('laundryLeap', () => {
                 align: 'center',
                 color: rgb(255, 153, 102),
             });
+
+            drawTextShadow(`${getKeyName('back')} = Back to Menu`, width() / 2, 340, {
+                size: 14,
+                align: 'center',
+                color: rgb(140, 120, 100),
+            });
         } else if (phase === 'positioning' || phase === 'jumping') {
             // Laundry basket
             drawSprite({
@@ -637,6 +643,12 @@ scene('martiniMondays', () => {
                 size: 18,
                 align: 'center',
                 color: rgb(255, 153, 102),
+            });
+
+            drawTextShadow(`${getKeyName('back')} = Back to Menu`, width() / 2, 300, {
+                size: 14,
+                align: 'center',
+                color: rgb(140, 120, 100),
             });
 
             // Smudge searching - below the text
@@ -1119,6 +1131,12 @@ scene('airTag', () => {
                 align: 'center',
                 color: rgb(255, 153, 102),
             });
+
+            drawTextShadow(`${getKeyName('back')} = Back to Menu`, width() / 2, 370, {
+                size: 14,
+                align: 'center',
+                color: rgb(140, 120, 100),
+            });
         } else if (phase === 'searching') {
             drawTextShadow(`Asked: ${neighborsAsked}/${totalNeighbors}`, width() / 2, 70, {
                 size: 18,
@@ -1477,6 +1495,12 @@ scene('iceCreamHeadache', () => {
                 size: 15,
                 align: 'center',
                 color: rgb(255, 153, 102),
+            });
+
+            drawTextShadow(`${getKeyName('back')} = Back to Menu`, width() / 2, 400, {
+                size: 14,
+                align: 'center',
+                color: rgb(140, 120, 100),
             });
         } else if (phase === 'tiptoeing' || phase === 'result') {
             // Noise level indicator

@@ -244,12 +244,12 @@ scene('overworld', () => {
             color: rgb(255, 153, 102),
         });
 
-        // Smudge
-        const smudgeY = 150 + getBobOffset();
+        // Smudge (moved down to prevent top cutoff)
+        const smudgeY = 120 + getBobOffset();
         drawSprite({
             sprite: 'smudge_idle',
             pos: vec2(width() / 2, smudgeY),
-            scale: 2.5,
+            scale: 1.8,
             anchor: 'center',
         });
 
@@ -262,8 +262,8 @@ scene('overworld', () => {
         });
 
         // Quest list
-        drawTextShadow('Choose a Quest:', width() / 2, 260, {
-            size: 24,
+        drawTextShadow('Choose a Quest:', width() / 2, 220, {
+            size: 22,
             align: 'center',
             color: rgb(140, 90, 60),
         });
@@ -272,7 +272,7 @@ scene('overworld', () => {
             const quest = quests[i];
             const completed = gameState.player.completedQuests.has(quest.id);
             const text = `${quest.name} ${completed ? '✓' : ''}`;
-            uiPill(text, 310 + i * 50, { selected: i === selectedIndex });
+            uiPill(text, 265 + i * 50, { selected: i === selectedIndex });
         }
 
         // Instructions

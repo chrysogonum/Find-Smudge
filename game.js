@@ -405,19 +405,14 @@ scene('laundryLeap', () => {
                 anchor: 'center',
             });
 
-            drawTextShadow('Use ← → to move', width() / 2, 300, {
-                size: 15,
-                align: 'center',
-                color: rgb(92, 64, 51),
-            });
-            drawTextShadow('Press SPACE (␣) to jump!', width() / 2, 325, {
-                size: 15,
+            drawTextShadow('Use ← → to move · SPACE (␣) to jump!', width() / 2, 280, {
+                size: 14,
                 align: 'center',
                 color: rgb(92, 64, 51),
             });
 
-            drawTextShadow('Press A to start', width() / 2, 370, {
-                size: 18,
+            drawTextShadow('Press A to start', width() / 2, 310, {
+                size: 16,
                 align: 'center',
                 color: rgb(255, 153, 102),
             });
@@ -494,42 +489,37 @@ scene('laundryLeap', () => {
                 // Extract bonus from result (after "SUCCESS! ")
                 const bonusText = result.replace('SUCCESS! ', '');
 
-                drawTextShadow('SUCCESS!', width() / 2, 320, {
-                    size: 24,
+                drawTextShadow('SUCCESS!', width() / 2, 240, {
+                    size: 22,
                     align: 'center',
                     color: resultColor,
                 });
-                drawTextShadow(bonusText, width() / 2, 350, {
-                    size: 22,
+                drawTextShadow(bonusText, width() / 2, 270, {
+                    size: 20,
                     align: 'center',
                     color: rgb(255, 180, 100),
                 });
-                drawTextShadow(`${finalTemp}° warmth!`, width() / 2, 380, {
-                    size: 18,
+                drawTextShadow(`${finalTemp}° warmth!`, width() / 2, 295, {
+                    size: 16,
                     align: 'center',
                     color: resultColor,
                 });
             } else if (result.includes('cooled down')) {
-                drawTextShadow('Landed... but the', width() / 2, 360, {
-                    size: 20,
-                    align: 'center',
-                    color: resultColor,
-                });
-                drawTextShadow('laundry cooled down!', width() / 2, 390, {
-                    size: 20,
+                drawTextShadow('Landed... but laundry cooled down!', width() / 2, 260, {
+                    size: 18,
                     align: 'center',
                     color: resultColor,
                 });
             } else {
-                drawTextShadow(result, width() / 2, 370, {
-                    size: 20,
+                drawTextShadow(result, width() / 2, 260, {
+                    size: 18,
                     align: 'center',
                     color: resultColor,
                 });
             }
 
-            drawTextShadow('Press A to continue', width() / 2, 420, {
-                size: 18,
+            drawTextShadow('Press A to continue', width() / 2, 320, {
+                size: 16,
                 align: 'center',
             });
         }
@@ -620,10 +610,10 @@ scene('martiniMondays', () => {
                 anchor: 'center',
             });
 
-            drawTextShadow('Press A to start searching', width() / 2, 420, {
-                size: 20,
+            drawTextShadow('Press A to start searching', width() / 2, 340, {
+                size: 18,
                 align: 'center',
-                color: rgb(140, 90, 60),
+                color: rgb(255, 153, 102),
             });
         } else if (phase === 'searching') {
             drawTextShadow(`Attempts: ${attempts}/${maxAttempts}`, 20, 80, {
@@ -651,13 +641,13 @@ scene('martiniMondays', () => {
 
             // Show feedback message if we just searched and didn't find it
             if (result && result !== '') {
-                drawTextShadow(result, width() / 2, 380, {
-                    size: 20,
+                drawTextShadow(result, width() / 2, 100, {
+                    size: 18,
                     align: 'center',
                     color: rgb(255, 180, 100),
                 });
-                drawTextShadow(`${maxAttempts - attempts} attempts left`, width() / 2, 405, {
-                    size: 16,
+                drawTextShadow(`${maxAttempts - attempts} attempts left`, width() / 2, 125, {
+                    size: 14,
                     align: 'center',
                     color: rgb(200, 150, 100),
                 });
@@ -696,25 +686,20 @@ scene('martiniMondays', () => {
 
             // Split success message to avoid cutoff and sprite overlap
             if (result.includes('FOUND')) {
-                drawTextShadow('FOUND IT!', width() / 2, 100, {
-                    size: 24,
-                    align: 'center',
-                    color: resultColor,
-                });
-                drawTextShadow('Martini time! 🍸', width() / 2, 130, {
+                drawTextShadow('FOUND IT! Martini time! 🍸', width() / 2, 110, {
                     size: 20,
                     align: 'center',
                     color: resultColor,
                 });
             } else {
-                drawTextShadow(result, width() / 2, 360, {
+                drawTextShadow(result, width() / 2, 270, {
                     size: 18,
                     align: 'center',
                     color: resultColor,
                 });
             }
 
-            drawTextShadow('Press A to continue', width() / 2, 420, {
+            drawTextShadow('Press A to continue', width() / 2, 310, {
                 size: 16,
                 align: 'center',
             });
@@ -1048,19 +1033,15 @@ scene('airTag', () => {
                 color: rgb(255, 180, 180),
             });
 
-            drawTextShadow('The neighborhood needs', width() / 2, 330, {
-                size: 18,
-                align: 'center',
-            });
-            drawTextShadow('to help find him!', width() / 2, 355, {
-                size: 18,
+            drawTextShadow('The neighborhood needs to help find him!', width() / 2, 310, {
+                size: 16,
                 align: 'center',
             });
 
-            drawTextShadow('Press A to start searching', width() / 2, 420, {
-                size: 18,
+            drawTextShadow('Press A to start searching', width() / 2, 340, {
+                size: 16,
                 align: 'center',
-                color: rgb(140, 90, 60),
+                color: rgb(255, 153, 102),
             });
         } else if (phase === 'searching') {
             drawTextShadow(`Asked: ${neighborsAsked}/${totalNeighbors}`, width() / 2, 70, {
@@ -1153,13 +1134,13 @@ scene('airTag', () => {
 
             // Show instruction at bottom
             if (neighborsAsked >= totalNeighbors) {
-                drawTextShadow('Found him! Press SPACE to rescue!', width() / 2, 420, {
-                    size: 18,
+                drawTextShadow('Found him! Press SPACE to rescue!', width() / 2, 70, {
+                    size: 16,
                     align: 'center',
-                    color: rgb(255, 153, 102),
+                    color: rgb(100, 200, 100),
                 });
             } else {
-                drawTextShadow('↑/↓ Choose · A Ask', width() / 2, 420, {
+                drawTextShadow('↑/↓ Choose · A Ask', width() / 2, 70, {
                     size: 14,
                     align: 'center',
                     color: rgb(140, 90, 60),
@@ -1179,8 +1160,8 @@ scene('airTag', () => {
                 anchor: 'center',
             });
 
-            drawTextShadow('There he is!', width() / 2, 420, {
-                size: 28,
+            drawTextShadow('There he is!', width() / 2, 280, {
+                size: 24,
                 align: 'center',
                 color: rgb(100, 200, 100),
             });
@@ -1201,24 +1182,14 @@ scene('airTag', () => {
             });
 
             // Split success message to avoid cutoff
-            drawTextShadow('FOUND!', width() / 2, 390, {
-                size: 24,
-                align: 'center',
-                color: rgb(100, 200, 100),
-            });
-            drawTextShadow('The neighborhood', width() / 2, 420, {
-                size: 20,
-                align: 'center',
-                color: rgb(100, 200, 100),
-            });
-            drawTextShadow('worked together! 🏡', width() / 2, 445, {
-                size: 20,
+            drawTextShadow('FOUND! The neighborhood worked together! 🏡', width() / 2, 280, {
+                size: 18,
                 align: 'center',
                 color: rgb(100, 200, 100),
             });
 
-            drawTextShadow('Press A to continue', width() / 2, 420, {
-                size: 18,
+            drawTextShadow('Press A to continue', width() / 2, 310, {
+                size: 16,
                 align: 'center',
             });
         }
@@ -1374,19 +1345,15 @@ scene('iceCreamHeadache', () => {
                 anchor: 'center',
             });
 
-            drawTextShadow('ARROWS = Move', width() / 2, 390, {
-                size: 16,
-                align: 'center',
-            });
-            drawTextShadow('Slow & steady!', width() / 2, 410, {
-                size: 16,
+            drawTextShadow('ARROWS = Move · Slow & steady!', width() / 2, 280, {
+                size: 14,
                 align: 'center',
             });
 
-            drawTextShadow('Press A to start', width() / 2, 420, {
-                size: 20,
+            drawTextShadow('Press A to start', width() / 2, 310, {
+                size: 16,
                 align: 'center',
-                color: rgb(140, 90, 60),
+                color: rgb(255, 153, 102),
             });
         } else if (phase === 'tiptoeing' || phase === 'result') {
             // Noise level indicator
@@ -1510,14 +1477,9 @@ scene('iceCreamHeadache', () => {
             });
 
             if (phase === 'tiptoeing') {
-                // Instructions - concise and high up
-                drawTextShadow('Go DOWN, under bed', width() / 2, 380, {
-                    size: 15,
-                    align: 'center',
-                    color: rgb(255, 200, 100),
-                });
-                drawTextShadow('then UP to mom!', width() / 2, 400, {
-                    size: 15,
+                // Instructions - concise at top
+                drawTextShadow('Go DOWN under bed, then UP to mom!', width() / 2, 70, {
+                    size: 14,
                     align: 'center',
                     color: rgb(255, 200, 100),
                 });
@@ -1526,8 +1488,8 @@ scene('iceCreamHeadache', () => {
                 const distanceToMomHead = Math.sqrt(Math.pow(smudgeX - momX, 2) + Math.pow(smudgeY - momHeadY, 2));
                 if (distanceToMomHead < 100) {
                     const proximityText = distanceToMomHead < 45 ? '⭐ Right here!' : 'Getting close...';
-                    drawTextShadow(proximityText, width() / 2, 430, {
-                        size: 14,
+                    drawTextShadow(proximityText, width() / 2, 90, {
+                        size: 13,
                         align: 'center',
                         color: rgb(150, 255, 150),
                     });
@@ -1536,32 +1498,22 @@ scene('iceCreamHeadache', () => {
                 const resultColor = result.includes('SUCCESS') ? rgb(100, 200, 100) : rgb(255, 150, 100);
 
                 if (result.includes('SUCCESS')) {
-                    drawTextShadow('SUCCESS!', width() / 2, 240, {
-                        size: 24,
-                        align: 'center',
-                        color: resultColor,
-                    });
-                    drawTextShadow('Ice cream "helps"', width() / 2, 270, {
-                        size: 18,
-                        align: 'center',
-                        color: resultColor,
-                    });
-                    drawTextShadow('with headaches! 🍦', width() / 2, 295, {
-                        size: 18,
+                    drawTextShadow('SUCCESS! Ice cream "helps" with headaches! 🍦', width() / 2, 260, {
+                        size: 16,
                         align: 'center',
                         color: resultColor,
                     });
                 } else {
                     // Failure messages (shorter, fit on fewer lines)
-                    drawTextShadow(result, width() / 2, 250, {
-                        size: 18,
+                    drawTextShadow(result, width() / 2, 260, {
+                        size: 16,
                         align: 'center',
                         color: resultColor,
                     });
                 }
 
-                drawTextShadow('Press A to continue', width() / 2, 340, {
-                    size: 16,
+                drawTextShadow('Press A to continue', width() / 2, 290, {
+                    size: 14,
                     align: 'center',
                 });
             }

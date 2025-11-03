@@ -95,16 +95,7 @@ function drawTextShadow(txt, x, y, opts = {}) {
     const align = opts.align || 'left';
     const col = opts.color || rgb(255, 255, 255);
 
-    // Shadow
-    drawText({
-        text: txt,
-        pos: vec2(x + 2, y + 2),
-        size: size,
-        align: align,
-        color: rgb(0, 0, 0, 0.3),
-    });
-
-    // Main text
+    // Main text only (shadow removed for clarity)
     drawText({
         text: txt,
         pos: vec2(x, y),

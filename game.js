@@ -53,27 +53,39 @@ function loadGame() {
 // MOBILE INPUT SYSTEM
 // ===========================
 
-// Global update loop to handle virtual key states
+// Simple approach: Just check virtual keys directly in game logic
+// Use regular onKeyPress for keyboard, check window.smudgeInput manually for touch
+
+// Track previous frame's key state
+const prevVirtualKeys = {};
+
+// Global update: manage virtual key press detection
 onUpdate(() => {
-    // Clear pressed state each frame (after handlers have run)
+    // Clear pressed state for next frame
     window.smudgeInput.clearPressed();
 });
 
-// Enhanced key press handler that works with both keyboard and touch
+// Wrapper to handle both keyboard and virtual  keys
+// This creates scene-local handlers that auto-cleanup
 function onAnyKeyPress(key, callback) {
-    // Keyboard handler
+    // Keyboard
     onKeyPress(key, callback);
 
-    // Virtual button handler (checked each frame)
-    let wasPressed = false;
+    // Virtual keys - check once per frame
+    let handled = false;
     onUpdate(() => {
         const isPressed = window.smudgeInput.isPressed(key);
-        if (isPressed && !wasPressed) {
+        const wasPrevPressed = prevVirtualKeys[key];
+
+        // Only trigger on rising edge and once per frame
+        if (isPressed && !wasPrevPressed && !handled) {
             callback();
-            wasPressed = true;
+            handled = true;
         } else if (!isPressed) {
-            wasPressed = false;
+            handled = false;
         }
+
+        prevVirtualKeys[key] = isPressed;
     });
 }
 
@@ -196,7 +208,7 @@ scene('mainMenu', () => {
         }
 
         // Controls hint
-        drawTextShadow('↑/↓ to navigate · Enter to select', width() / 2, height() - 40, {
+        drawTextShadow('↑/↓ Navigate · A = Select', width() / 2, height() - 40, {
             size: 16,
             align: 'center',
             color: rgb(150, 120, 90),
@@ -286,7 +298,7 @@ scene('overworld', () => {
         }
 
         // Instructions
-        drawTextShadow('↑/↓ Navigate · Enter Select · ESC Back', width() / 2, height() - 30, {
+        drawTextShadow('↑/↓ Navigate · A = Select · B = Back', width() / 2, height() - 30, {
             size: 16,
             align: 'center',
             color: rgb(150, 120, 90),
@@ -392,7 +404,7 @@ scene('laundryLeap', () => {
                 align: 'center',
                 color: rgb(255, 153, 102),
             });
-            drawTextShadow('Press ENTER to start', width() / 2, 400, {
+            drawTextShadow('Press A to start', width() / 2, 400, {
                 size: 24,
                 align: 'center',
                 color: rgb(140, 90, 60),
@@ -462,7 +474,7 @@ scene('laundryLeap', () => {
                 color: resultColor,
             });
 
-            drawTextShadow('Press ENTER to continue', width() / 2, 520, {
+            drawTextShadow('Press A to continue', width() / 2, 520, {
                 size: 20,
                 align: 'center',
             });
@@ -558,7 +570,7 @@ scene('martiniMondays', () => {
                 anchor: 'center',
             });
 
-            drawTextShadow('Press ENTER to start searching', width() / 2, 480, {
+            drawTextShadow('Press A to start searching', width() / 2, 480, {
                 size: 20,
                 align: 'center',
                 color: rgb(140, 90, 60),
@@ -624,7 +636,7 @@ scene('martiniMondays', () => {
                 color: resultColor,
             });
 
-            drawTextShadow('Press ENTER to continue', width() / 2, 540, {
+            drawTextShadow('Press A to continue', width() / 2, 540, {
                 size: 20,
                 align: 'center',
             });
@@ -735,7 +747,7 @@ scene('airTag', () => {
                 color: rgb(255, 153, 102),
             });
 
-            drawTextShadow('Press ENTER to start searching', width() / 2, 480, {
+            drawTextShadow('Press A to start searching', width() / 2, 480, {
                 size: 20,
                 align: 'center',
                 color: rgb(140, 90, 60),
@@ -828,7 +840,7 @@ scene('airTag', () => {
                 color: rgb(100, 200, 100),
             });
 
-            drawTextShadow('Press ENTER to continue', width() / 2, 520, {
+            drawTextShadow('Press A to continue', width() / 2, 520, {
                 size: 20,
                 align: 'center',
             });
@@ -957,7 +969,7 @@ scene('iceCreamHeadache', () => {
                 align: 'center',
             });
 
-            drawTextShadow('Press ENTER to start', width() / 2, 520, {
+            drawTextShadow('Press A to start', width() / 2, 520, {
                 size: 20,
                 align: 'center',
                 color: rgb(140, 90, 60),
@@ -1033,7 +1045,7 @@ scene('iceCreamHeadache', () => {
                     color: resultColor,
                 });
 
-                drawTextShadow('Press ENTER to continue', width() / 2, 540, {
+                drawTextShadow('Press A to continue', width() / 2, 540, {
                     size: 20,
                     align: 'center',
                 });
@@ -1136,7 +1148,7 @@ scene('questComplete', ({ questName }) => {
             anchor: 'center',
         });
 
-        drawTextShadow('Press ENTER to continue', width() / 2, y + boxHeight + 60, {
+        drawTextShadow('Press A to continue', width() / 2, y + boxHeight + 60, {
             size: 20,
             align: 'center',
         });

@@ -958,12 +958,94 @@ scene('airTag', () => {
                 color: rgb(255, 153, 102),
             });
 
-            // Smudge running away (small)
-            drawSprite({
-                sprite: 'smudge_running',
-                pos: vec2(480, 270),
-                scale: 2,
-                anchor: 'center',
+            // Smudge running away - custom cat drawing with ears and tail
+            const catX = 500;
+            const catY = 270;
+
+            // Tail (curved behind)
+            drawCircle({
+                pos: vec2(catX - 25, catY - 10),
+                radius: 8,
+                color: rgb(210, 140, 90),
+            });
+            drawCircle({
+                pos: vec2(catX - 30, catY - 20),
+                radius: 6,
+                color: rgb(210, 140, 90),
+            });
+            drawCircle({
+                pos: vec2(catX - 32, catY - 28),
+                radius: 5,
+                color: rgb(210, 140, 90),
+            });
+
+            // Body
+            drawCircle({
+                pos: vec2(catX, catY),
+                radius: 25,
+                color: rgb(210, 140, 90),
+            });
+
+            // Head
+            drawCircle({
+                pos: vec2(catX + 15, catY - 8),
+                radius: 18,
+                color: rgb(210, 140, 90),
+            });
+
+            // Left ear (pointy triangle)
+            drawPolygon({
+                pts: [
+                    vec2(catX + 8, catY - 20),
+                    vec2(catX + 5, catY - 30),
+                    vec2(catX + 12, catY - 25)
+                ],
+                color: rgb(210, 140, 90),
+            });
+
+            // Right ear (pointy triangle)
+            drawPolygon({
+                pts: [
+                    vec2(catX + 20, catY - 20),
+                    vec2(catX + 17, catY - 30),
+                    vec2(catX + 24, catY - 25)
+                ],
+                color: rgb(210, 140, 90),
+            });
+
+            // Tabby stripes on body
+            drawRect({
+                pos: vec2(catX - 5, catY - 5),
+                width: 3,
+                height: 15,
+                color: rgb(180, 110, 70),
+                angle: 20,
+            });
+            drawRect({
+                pos: vec2(catX - 12, catY + 5),
+                width: 3,
+                height: 12,
+                color: rgb(180, 110, 70),
+                angle: 15,
+            });
+
+            // Eyes
+            drawCircle({
+                pos: vec2(catX + 12, catY - 10),
+                radius: 3,
+                color: rgb(80, 150, 80),
+            });
+            drawCircle({
+                pos: vec2(catX + 20, catY - 10),
+                radius: 3,
+                color: rgb(80, 150, 80),
+            });
+
+            // Nose
+            drawCircle({
+                pos: vec2(catX + 16, catY - 3),
+                radius: 2,
+                color: rgb(255, 180, 180),
             });
 
             drawTextShadow('The neighborhood needs', width() / 2, 330, {

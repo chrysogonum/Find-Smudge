@@ -882,6 +882,7 @@ scene('airTag', () => {
 // ICE CREAM HEADACHE QUEST
 // ===========================
 scene('iceCreamHeadache', () => {
+    console.log('Ice Cream Headache scene started!');
     let phase = 'intro'; // 'intro', 'tiptoeing', 'result'
     let smudgeX = 100;
     const momX = 600;

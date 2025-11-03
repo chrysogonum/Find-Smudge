@@ -639,6 +639,20 @@ scene('martiniMondays', () => {
                 anchor: 'center',
             });
 
+            // Show feedback message if we just searched and didn't find it
+            if (result && result !== '') {
+                drawTextShadow(result, width() / 2, 380, {
+                    size: 20,
+                    align: 'center',
+                    color: rgb(255, 180, 100),
+                });
+                drawTextShadow(`${maxAttempts - attempts} attempts left`, width() / 2, 405, {
+                    size: 16,
+                    align: 'center',
+                    color: rgb(200, 150, 100),
+                });
+            }
+
             drawTextShadow('↑/↓ Navigate · ENTER Search · ESC Back', width() / 2, height() - 30, {
                 size: 16,
                 align: 'center',
@@ -714,11 +728,20 @@ scene('martiniMondays', () => {
                     result = "Couldn't find it... Maybe next Monday?";
                     phase = 'result';
                 } else {
-                    result = `Not here! ${maxAttempts - attempts} attempts left`;
-                    // Brief feedback then continue searching
-                    wait(1, () => {
+                    // Fun cat-themed "not here" messages
+                    const notFoundMessages = [
+                        "Just dust bunnies here!",
+                        "Nope, only cobwebs!",
+                        "Nothing but cat hair!",
+                        "Empty! Keep looking!",
+                        "Not this spot!",
+                        "Try somewhere else!"
+                    ];
+                    result = choose(notFoundMessages);
+                    // Brief feedback then clear result to continue searching
+                    wait(1.5, () => {
                         if (phase === 'searching') {
-                            // Still searching
+                            result = ''; // Clear after showing feedback
                         }
                     });
                 }

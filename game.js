@@ -398,6 +398,11 @@ scene('laundryLeap', () => {
                 align: 'center',
                 color: rgb(255, 180, 100),
             });
+            drawTextShadow("Nobody likes cold laundry!", width() / 2, 220, {
+                size: 14,
+                align: 'center',
+                color: rgb(200, 150, 120),
+            });
 
             // Smudge waiting (centered, above controls)
             drawSprite({
@@ -606,16 +611,16 @@ scene('martiniMondays', () => {
         });
 
         if (phase === 'intro') {
-            drawTextShadow("Smudge lost his", width() / 2, 170, {
+            drawTextShadow("Help Smudge find his lost", width() / 2, 170, {
                 size: 22,
                 align: 'center',
             });
-            drawTextShadow("martini glass toy!", width() / 2, 200, {
+            drawTextShadow("martini before hangover", width() / 2, 200, {
                 size: 22,
                 align: 'center',
             });
-            drawTextShadow('Where could it be?', width() / 2, 240, {
-                size: 18,
+            drawTextShadow('sets in!', width() / 2, 230, {
+                size: 22,
                 align: 'center',
             });
 
@@ -923,31 +928,63 @@ scene('airTag', () => {
         });
 
         if (phase === 'intro') {
-            drawTextShadow('Oh no!', width() / 2, 160, {
+            drawTextShadow('Oh no!', width() / 2, 100, {
                 size: 28,
                 align: 'center',
                 color: rgb(200, 100, 100),
             });
-            drawTextShadow('Smudge escaped!', width() / 2, 195, {
+            drawTextShadow('Smudge escaped!', width() / 2, 135, {
                 size: 24,
                 align: 'center',
                 color: rgb(200, 100, 100),
             });
-            drawTextShadow('The neighborhood needs', width() / 2, 235, {
-                size: 18,
-                align: 'center',
+
+            // Draw a simple neighborhood scene showing Smudge is missing
+            // Empty house
+            drawRect({
+                pos: vec2(250, 240),
+                width: 70,
+                height: 60,
+                color: rgb(255, 220, 200),
+                radius: 4,
             });
-            drawTextShadow('to help find him!', width() / 2, 260, {
-                size: 18,
-                align: 'center',
+            // Roof
+            drawPolygon({
+                pts: [vec2(285, 210), vec2(245, 240), vec2(325, 240)],
+                color: rgb(180, 100, 80),
+            });
+            // Door (open)
+            drawRect({
+                pos: vec2(275, 270),
+                width: 20,
+                height: 30,
+                color: rgb(50, 50, 50),
+                radius: 2,
             });
 
-            // Question mark (Smudge is missing!)
+            // Arrow showing Smudge left
             drawText({
-                text: '?',
-                pos: vec2(width() / 2 - 30, 300),
-                size: 100,
+                text: '→',
+                pos: vec2(340, 255),
+                size: 40,
                 color: rgb(255, 153, 102),
+            });
+
+            // Smudge running away (small)
+            drawSprite({
+                sprite: 'smudge_running',
+                pos: vec2(480, 270),
+                scale: 2,
+                anchor: 'center',
+            });
+
+            drawTextShadow('The neighborhood needs', width() / 2, 330, {
+                size: 18,
+                align: 'center',
+            });
+            drawTextShadow('to help find him!', width() / 2, 355, {
+                size: 18,
+                align: 'center',
             });
 
             drawTextShadow('Press A to start searching', width() / 2, 440, {

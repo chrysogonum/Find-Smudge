@@ -930,16 +930,20 @@ scene('iceCreamHeadache', () => {
         });
 
         if (phase === 'intro') {
-            drawTextShadow("Mom has a headache!", width() / 2, 160, {
-                size: 24,
+            drawTextShadow("Mom has a headache!", width() / 2, 100, {
+                size: 22,
                 align: 'center',
             });
-            drawTextShadow("Smudge wants to help with his ice cream cone toy!", width() / 2, 200, {
-                size: 20,
+            drawTextShadow("Smudge wants to help", width() / 2, 135, {
+                size: 18,
                 align: 'center',
             });
-            drawTextShadow("Tiptoe past sleeping dad (quietly!)", width() / 2, 260, {
-                size: 20,
+            drawTextShadow("with his ice cream toy!", width() / 2, 160, {
+                size: 18,
+                align: 'center',
+            });
+            drawTextShadow("Tiptoe past sleeping dad!", width() / 2, 195, {
+                size: 16,
                 align: 'center',
                 color: rgb(255, 200, 100),
             });
@@ -947,24 +951,28 @@ scene('iceCreamHeadache', () => {
             // Smudge with ice cream
             drawSprite({
                 sprite: 'ice_cream_cone',
-                pos: vec2(width() / 2, 350),
-                scale: 3,
+                pos: vec2(width() / 2 - 20, 280),
+                scale: 2.5,
                 anchor: 'center',
             });
 
             drawSprite({
                 sprite: 'smudge_idle',
-                pos: vec2(width() / 2 + 50, 380),
-                scale: 2,
+                pos: vec2(width() / 2 + 30, 305),
+                scale: 1.8,
                 anchor: 'center',
             });
 
-            drawTextShadow('LEFT/RIGHT = Move · Slow & steady!', width() / 2, 480, {
-                size: 18,
+            drawTextShadow('LEFT/RIGHT = Move', width() / 2, 380, {
+                size: 16,
+                align: 'center',
+            });
+            drawTextShadow('Slow & steady!', width() / 2, 400, {
+                size: 16,
                 align: 'center',
             });
 
-            drawTextShadow('Press A to start', width() / 2, 520, {
+            drawTextShadow('Press A to start', width() / 2, 450, {
                 size: 20,
                 align: 'center',
                 color: rgb(140, 90, 60),

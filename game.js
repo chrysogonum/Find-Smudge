@@ -583,9 +583,9 @@ scene('martiniMondays', () => {
     let phase = 'intro'; // 'intro', 'searching', 'result'
     let selectedLocation = 0;
     const locations = [
-        { name: 'Under the Fridge', chance: 0.4 },
         { name: 'Under the Couch', chance: 0.4 },
         { name: 'Basement Stairs', chance: 0.2 },
+        { name: 'Under the Fridge', chance: 0.4 },
     ];
     let toyLocation = null;
     let result = '';
@@ -593,16 +593,8 @@ scene('martiniMondays', () => {
     const maxAttempts = 3;
 
     function startSearch() {
-        // Randomly place the toy
-        const roll = rand();
-        let cumulative = 0;
-        for (let i = 0; i < locations.length; i++) {
-            cumulative += locations[i].chance;
-            if (roll < cumulative) {
-                toyLocation = i;
-                break;
-            }
-        }
+        // Always under the fridge (index 2)
+        toyLocation = 2;
         phase = 'searching';
     }
 

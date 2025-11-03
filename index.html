@@ -23,7 +23,7 @@
 
             press: function(key) {
                 this.heldKeys[key] = true;
-                // Simulate actual keyboard event
+                // Simulate actual keyboard event on window (Kaboom listens here)
                 const mappedKey = keyMap[key] || key;
                 console.log('Simulating keydown:', key, '→', mappedKey);
                 const event = new KeyboardEvent('keydown', {
@@ -32,7 +32,14 @@
                     bubbles: true,
                     cancelable: true
                 });
+                // Try multiple targets to ensure Kaboom catches it
+                window.dispatchEvent(event);
                 document.dispatchEvent(event);
+                // Also try the canvas if it exists
+                const canvas = document.querySelector('canvas');
+                if (canvas) {
+                    canvas.dispatchEvent(event);
+                }
             },
 
             release: function(key) {
@@ -45,7 +52,12 @@
                     bubbles: true,
                     cancelable: true
                 });
+                window.dispatchEvent(event);
                 document.dispatchEvent(event);
+                const canvas = document.querySelector('canvas');
+                if (canvas) {
+                    canvas.dispatchEvent(event);
+                }
             },
 
             isDown: function(key) {

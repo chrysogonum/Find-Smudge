@@ -1,12 +1,16 @@
 // Find Smudge - A Tabby Cat Adventure
 // Help Smudge complete quests around the house and neighborhood!
 
+console.log('Starting Kaboom initialization...');
+
 kaboom({
     width: 800,
     height: 600,
     scale: 1,
     background: [255, 250, 245], // Warm cream background
 });
+
+console.log('Kaboom initialized!');
 
 // Mobile input system is defined in index.html
 // (window.smudgeInput is already available)
@@ -146,10 +150,12 @@ function getBobOffset(speed = 3, amplitude = 3) {
 // MAIN MENU SCENE
 // ===========================
 scene('mainMenu', () => {
+    console.log('Main menu scene started!');
     loadGame();
 
     let selectedIndex = 0;
     const menuOptions = ['New Game', 'Continue', 'Quit'];
+    console.log('Menu options:', menuOptions);
 
     onDraw(() => {
         // Title
@@ -1141,4 +1147,6 @@ scene('questComplete', ({ questName }) => {
 });
 
 // Start the game!
+console.log('About to start main menu...');
 go('mainMenu');
+console.log('Main menu started!');

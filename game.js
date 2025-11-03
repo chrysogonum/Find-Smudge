@@ -852,12 +852,12 @@ scene('airTag', () => {
             radius: 2,
         });
 
-        // Label above house
+        // Label below house
         drawText({
             text: label,
-            pos: vec2(x, y - 40),
-            size: 11,
-            color: rgb(80, 80, 100),
+            pos: vec2(x, y + 65),
+            size: 13,
+            color: rgb(60, 60, 80),
             align: 'center',
             anchor: 'center',
         });
@@ -1011,28 +1011,29 @@ scene('airTag', () => {
             // Show current clue if asking a neighbor
             if (currentClue !== '') {
                 drawRect({
-                    pos: vec2(200, 285),
-                    width: 400,
-                    height: 45,
+                    pos: vec2(150, 280),
+                    width: 500,
+                    height: 55,
                     color: rgb(255, 250, 220),
-                    outline: { color: rgb(255, 153, 102), width: 2 },
+                    outline: { color: rgb(255, 153, 102), width: 3 },
                     radius: 8,
                 });
                 drawTextShadow(`"${currentClue}"`, width() / 2, 295, {
-                    size: 16,
+                    size: 18,
+                    align: 'center',
+                    color: rgb(60, 50, 40),
+                });
+                drawTextShadow(`- ${neighbors[neighborsAsked - 1]?.name || ''}`, width() / 2, 320, {
+                    size: 15,
                     align: 'center',
                     color: rgb(100, 80, 60),
-                });
-                drawTextShadow(`- ${neighbors[neighborsAsked - 1]?.name || ''}`, width() / 2, 315, {
-                    size: 13,
-                    align: 'center',
-                    color: rgb(140, 120, 100),
                 });
             } else {
                 // Instruction when no clue showing
                 drawTextShadow('Ask neighbors for clues:', width() / 2, 300, {
-                    size: 16,
+                    size: 20,
                     align: 'center',
+                    color: rgb(60, 50, 40),
                 });
             }
 

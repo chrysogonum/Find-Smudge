@@ -1403,28 +1403,23 @@ scene('iceCreamHeadache', () => {
             });
 
             if (phase === 'tiptoeing') {
-                // Instructions - split into multiple lines, positioned higher
-                drawTextShadow('Move DOWN first!', width() / 2, 420, {
-                    size: 16,
+                // Instructions - concise and high up
+                drawTextShadow('Go DOWN, under bed', width() / 2, 380, {
+                    size: 15,
                     align: 'center',
                     color: rgb(255, 200, 100),
                 });
-                drawTextShadow('Stay low under bed,', width() / 2, 440, {
-                    size: 14,
+                drawTextShadow('then UP to mom!', width() / 2, 400, {
+                    size: 15,
                     align: 'center',
-                    color: rgb(200, 200, 220),
-                });
-                drawTextShadow('then climb to mom!', width() / 2, 458, {
-                    size: 14,
-                    align: 'center',
-                    color: rgb(200, 200, 220),
+                    color: rgb(255, 200, 100),
                 });
 
                 // Distance indicator (helps player know how close they are)
                 const distanceToMomHead = Math.sqrt(Math.pow(smudgeX - momX, 2) + Math.pow(smudgeY - momHeadY, 2));
                 if (distanceToMomHead < 100) {
                     const proximityText = distanceToMomHead < 45 ? '⭐ Right here!' : 'Getting close...';
-                    drawTextShadow(proximityText, width() / 2, 480, {
+                    drawTextShadow(proximityText, width() / 2, 430, {
                         size: 14,
                         align: 'center',
                         color: rgb(150, 255, 150),

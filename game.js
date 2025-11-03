@@ -53,41 +53,12 @@ function loadGame() {
 // MOBILE INPUT SYSTEM
 // ===========================
 
-// Simple approach: Just check virtual keys directly in game logic
-// Use regular onKeyPress for keyboard, check window.smudgeInput manually for touch
+// Mobile buttons simulate real keyboard events, so we can use
+// regular onKeyPress for everything!
 
-// Track previous frame's key state
-const prevVirtualKeys = {};
-
-// Global update: manage virtual key press detection
-onUpdate(() => {
-    // Clear pressed state for next frame
-    window.smudgeInput.clearPressed();
-});
-
-// Wrapper to handle both keyboard and virtual  keys
-// This creates scene-local handlers that auto-cleanup
+// Alias for consistency - but just uses regular onKeyPress now
 function onAnyKeyPress(key, callback) {
-    // Keyboard
     onKeyPress(key, callback);
-
-    // Virtual keys - check once per frame
-    let handled = false;
-    onUpdate(() => {
-        const isPressed = window.smudgeInput.isPressed(key);
-        const wasPrevPressed = prevVirtualKeys[key];
-
-        // Only trigger on rising edge and once per frame
-        if (isPressed && !wasPrevPressed && !handled) {
-            console.log('Virtual key triggered:', key);
-            callback();
-            handled = true;
-        } else if (!isPressed) {
-            handled = false;
-        }
-
-        prevVirtualKeys[key] = isPressed;
-    });
 }
 
 // Enhanced isKeyDown that works with both keyboard and touch

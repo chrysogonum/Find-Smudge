@@ -7,24 +7,49 @@
 
     <!-- Define input system FIRST before anything else -->
     <script>
+        // Map our button names to Kaboom key names
+        const keyMap = {
+            'up': 'ArrowUp',
+            'down': 'ArrowDown',
+            'left': 'ArrowLeft',
+            'right': 'ArrowRight',
+            'enter': 'Enter',
+            'escape': 'Escape',
+            'space': ' '
+        };
+
         window.smudgeInput = {
-            pressedKeys: {},
             heldKeys: {},
+
             press: function(key) {
-                this.pressedKeys[key] = true;
                 this.heldKeys[key] = true;
+                // Simulate actual keyboard event
+                const mappedKey = keyMap[key] || key;
+                console.log('Simulating keydown:', key, '→', mappedKey);
+                const event = new KeyboardEvent('keydown', {
+                    key: mappedKey,
+                    code: mappedKey,
+                    bubbles: true,
+                    cancelable: true
+                });
+                document.dispatchEvent(event);
             },
+
             release: function(key) {
                 this.heldKeys[key] = false;
+                // Simulate keyup
+                const mappedKey = keyMap[key] || key;
+                const event = new KeyboardEvent('keyup', {
+                    key: mappedKey,
+                    code: mappedKey,
+                    bubbles: true,
+                    cancelable: true
+                });
+                document.dispatchEvent(event);
             },
-            isPressed: function(key) {
-                return this.pressedKeys[key] === true;
-            },
+
             isDown: function(key) {
                 return this.heldKeys[key] === true;
-            },
-            clearPressed: function() {
-                this.pressedKeys = {};
             }
         };
     </script>

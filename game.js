@@ -173,12 +173,12 @@ scene('mainMenu', () => {
 
         // Menu options
         for (let i = 0; i < menuOptions.length; i++) {
-            uiPill(menuOptions[i], 350 + i * 50, { selected: i === selectedIndex });
+            uiPill(menuOptions[i], 280 + i * 50, { selected: i === selectedIndex });
         }
 
         // Controls hint
-        drawTextShadow('↑/↓ Navigate · A = Select', width() / 2, height() - 40, {
-            size: 16,
+        drawTextShadow('↑/↓ Navigate · A = Select', width() / 2, 290, {
+            size: 14,
             align: 'center',
             color: rgb(150, 120, 90),
         });
@@ -263,12 +263,12 @@ scene('overworld', () => {
             const quest = quests[i];
             const completed = gameState.player.completedQuests.has(quest.id);
             const text = `${quest.name} ${completed ? '✓' : ''}`;
-            uiPill(text, 265 + i * 50, { selected: i === selectedIndex });
+            uiPill(text, 240 + i * 45, { selected: i === selectedIndex });
         }
 
         // Instructions
-        drawTextShadow('↑/↓ Navigate · A = Select · B = Back', width() / 2, height() - 30, {
-            size: 16,
+        drawTextShadow('↑/↓ Navigate · A = Select · B = Back', width() / 2, 190, {
+            size: 14,
             align: 'center',
             color: rgb(150, 120, 90),
         });
@@ -299,7 +299,7 @@ scene('laundryLeap', () => {
     let basketX = 600;
     let basketSpeed = 150;
     let smudgeX = 200; // Smudge can now move left and right!
-    let smudgeY = 450;
+    let smudgeY = 370; // Adjusted for mobile safe zone
     let jumpProgress = 0;
     let jumpSpeed = 0;
     const gravity = 800;
@@ -333,7 +333,7 @@ scene('laundryLeap', () => {
             jumpProgress += dt();
 
             // Check landing
-            if (smudgeY >= 300) {
+            if (smudgeY >= 280) {
                 const distance = Math.abs(smudgeX - basketX);
                 finalTemp = Math.floor(temperature);
 
@@ -352,7 +352,7 @@ scene('laundryLeap', () => {
                     result = `SUCCESS! ${bonus}`;
                     gameState.player.completedQuests.add('laundry_leap');
                     saveGame();
-                    sparkleBurst(vec2(basketX, 300), 30);
+                    sparkleBurst(vec2(basketX, 280), 30);
                 } else if (distance < 80) {
                     result = 'Landed... but the laundry cooled down!';
                 } else {
@@ -420,7 +420,7 @@ scene('laundryLeap', () => {
             // Laundry basket
             drawSprite({
                 sprite: 'laundry_basket',
-                pos: vec2(basketX, 300),
+                pos: vec2(basketX, 280),
                 scale: 1.5,
                 anchor: 'center',
             });
@@ -634,7 +634,7 @@ scene('martiniMondays', () => {
             // Smudge
             drawSprite({
                 sprite: 'smudge_searching',
-                pos: vec2(width() / 2, 450),
+                pos: vec2(width() / 2, 370),
                 scale: 2.5,
                 anchor: 'center',
             });
@@ -653,8 +653,8 @@ scene('martiniMondays', () => {
                 });
             }
 
-            drawTextShadow('↑/↓ Navigate · ENTER Search · ESC Back', width() / 2, height() - 30, {
-                size: 16,
+            drawTextShadow('↑/↓ Navigate · ENTER Search · ESC Back', width() / 2, 70, {
+                size: 14,
                 align: 'center',
             });
         } else if (phase === 'result') {
@@ -1129,7 +1129,7 @@ scene('airTag', () => {
             for (let i = 0; i < neighbors.length; i++) {
                 const asked = neighborsAsked > i;
                 const text = asked ? `${neighbors[i].name} ✓` : neighbors[i].name;
-                uiPill(text, 350 + i * 35, { selected: i === selectedNeighbor });
+                uiPill(text, 320 + i * 30, { selected: i === selectedNeighbor });
             }
 
             // Show instruction at bottom
@@ -1556,7 +1556,7 @@ scene('iceCreamHeadache', () => {
 
     onAnyKeyPress('down', () => {
         if (phase === 'tiptoeing') {
-            smudgeY = Math.min(400, smudgeY + 3); // Stay above bottom UI
+            smudgeY = Math.min(360, smudgeY + 3); // Stay in mobile safe zone
             noiseLevel += 2; // Moving makes noise
         }
     });
@@ -1577,7 +1577,7 @@ scene('iceCreamHeadache', () => {
                 noiseLevel = Math.min(100, noiseLevel + 15 * dt());
             }
             if (isAnyKeyDown('down')) {
-                smudgeY = Math.min(400, smudgeY + 100 * dt());
+                smudgeY = Math.min(360, smudgeY + 100 * dt());
                 noiseLevel = Math.min(100, noiseLevel + 15 * dt());
             }
         }
@@ -1594,9 +1594,9 @@ scene('iceCreamHeadache', () => {
 scene('questComplete', ({ questName }) => {
     onDraw(() => {
         const boxWidth = 500;
-        const boxHeight = 200;
+        const boxHeight = 180;
         const x = (width() - boxWidth) / 2;
-        const y = (height() - boxHeight) / 2;
+        const y = 100; // Fixed position higher up
 
         // Background
         drawRect({
@@ -1617,14 +1617,14 @@ scene('questComplete', ({ questName }) => {
         });
 
         // Quest complete!
-        drawTextShadow('QUEST COMPLETE!', width() / 2, y + 50, {
-            size: 32,
+        drawTextShadow('QUEST COMPLETE!', width() / 2, y + 40, {
+            size: 28,
             align: 'center',
             color: rgb(100, 200, 100),
         });
 
-        drawTextShadow(questName, width() / 2, y + 100, {
-            size: 24,
+        drawTextShadow(questName, width() / 2, y + 80, {
+            size: 22,
             align: 'center',
             color: rgb(255, 153, 102),
         });
@@ -1632,19 +1632,19 @@ scene('questComplete', ({ questName }) => {
         // Smudge celebrating
         drawSprite({
             sprite: 'smudge_idle',
-            pos: vec2(width() / 2, y + 180),
+            pos: vec2(width() / 2, y + 150),
             scale: 2,
             anchor: 'center',
         });
 
-        drawTextShadow('Press A to continue', width() / 2, y + boxHeight + 60, {
-            size: 20,
+        drawTextShadow('Press A to continue', width() / 2, 320, {
+            size: 18,
             align: 'center',
         });
 
         // Sparkles
         if (rand() < 0.3) {
-            sparkleBurst(vec2(width() / 2 + rand(-100, 100), y + rand(0, 100)), 2);
+            sparkleBurst(vec2(width() / 2 + rand(-100, 100), y + rand(0, 80)), 2);
         }
     });
 

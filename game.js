@@ -1,7 +1,7 @@
 // Find Smudge - A Tabby Cat Adventure
 // Help Smudge complete quests around the house and neighborhood!
 
-const VERSION = 'v1.2.1';
+const VERSION = 'v1.2.4';
 
 console.log('Starting Kaboom initialization...');
 
@@ -152,14 +152,14 @@ scene('mainMenu', () => {
 
     onDraw(() => {
         // Title
-        drawTextShadow('FIND SMUDGE', width() / 2, 70, {
-            size: 32,
+        drawTextShadow('FIND SMUDGE', width() / 2, 100, {
+            size: 28,
             align: 'center',
             color: rgb(255, 153, 102),
         });
 
-        drawTextShadow('A Tabby Cat Adventure', width() / 2, 110, {
-            size: 16,
+        drawTextShadow('A Tabby Cat Adventure', width() / 2, 130, {
+            size: 14,
             align: 'center',
             color: rgb(180, 140, 100),
         });
@@ -1091,49 +1091,41 @@ scene('airTag', () => {
             // Draw tree in the middle-right area
             drawTree(550, 190);
 
-            // Show current clue if asking a neighbor
-            if (currentClue !== '') {
-                drawRect({
-                    pos: vec2(150, 280),
-                    width: 500,
-                    height: 55,
-                    color: rgb(255, 250, 220),
-                    outline: { color: rgb(255, 153, 102), width: 3 },
-                    radius: 8,
-                });
-                drawText({
-                    text: `"${currentClue}"`,
-                    pos: vec2(width() / 2, 295),
-                    size: 18,
-                    align: 'center',
-                    anchor: 'center',
-                    color: rgb(60, 50, 40),
-                });
-                drawText({
-                    text: `- ${neighbors[neighborsAsked - 1]?.name || ''}`,
-                    pos: vec2(width() / 2, 320),
-                    size: 15,
-                    align: 'center',
-                    anchor: 'center',
-                    color: rgb(100, 80, 60),
-                });
-            } else {
-                // Instruction when no clue showing
-                drawText({
-                    text: 'Ask neighbors for clues:',
-                    pos: vec2(width() / 2, 300),
-                    size: 20,
-                    align: 'center',
-                    anchor: 'center',
-                    color: rgb(60, 50, 40),
-                });
-            }
-
             // Neighbor selection buttons
             for (let i = 0; i < neighbors.length; i++) {
                 const asked = neighborsAsked > i;
                 const text = asked ? `${neighbors[i].name} ✓` : neighbors[i].name;
-                uiPill(text, 320 + i * 30, { selected: i === selectedNeighbor });
+                uiPill(text, 220 + i * 32, { selected: i === selectedNeighbor });
+            }
+
+            // Show current clue below buttons - COMPACT
+            if (currentClue !== '') {
+                drawRect({
+                    pos: vec2(200, 340),
+                    width: 400,
+                    height: 40,
+                    color: rgb(255, 250, 220),
+                    outline: { color: rgb(255, 153, 102), width: 2 },
+                    radius: 6,
+                });
+                drawText({
+                    text: `"${currentClue}"`,
+                    pos: vec2(width() / 2, 360),
+                    size: 12,
+                    align: 'center',
+                    anchor: 'center',
+                    color: rgb(60, 50, 40),
+                });
+            } else {
+                // Instruction when no clue showing
+                drawText({
+                    text: 'Ask neighbors for clues',
+                    pos: vec2(width() / 2, 360),
+                    size: 14,
+                    align: 'center',
+                    anchor: 'center',
+                    color: rgb(60, 50, 40),
+                });
             }
 
             // Show instruction at bottom

@@ -1018,21 +1018,30 @@ scene('airTag', () => {
                     outline: { color: rgb(255, 153, 102), width: 3 },
                     radius: 8,
                 });
-                drawTextShadow(`"${currentClue}"`, width() / 2, 295, {
+                drawText({
+                    text: `"${currentClue}"`,
+                    pos: vec2(width() / 2, 295),
                     size: 18,
                     align: 'center',
+                    anchor: 'center',
                     color: rgb(60, 50, 40),
                 });
-                drawTextShadow(`- ${neighbors[neighborsAsked - 1]?.name || ''}`, width() / 2, 320, {
+                drawText({
+                    text: `- ${neighbors[neighborsAsked - 1]?.name || ''}`,
+                    pos: vec2(width() / 2, 320),
                     size: 15,
                     align: 'center',
+                    anchor: 'center',
                     color: rgb(100, 80, 60),
                 });
             } else {
                 // Instruction when no clue showing
-                drawTextShadow('Ask neighbors for clues:', width() / 2, 300, {
+                drawText({
+                    text: 'Ask neighbors for clues:',
+                    pos: vec2(width() / 2, 300),
                     size: 20,
                     align: 'center',
+                    anchor: 'center',
                     color: rgb(60, 50, 40),
                 });
             }

@@ -244,12 +244,12 @@ scene('overworld', () => {
             color: rgb(255, 153, 102),
         });
 
-        // Smudge (moved down to prevent top cutoff)
-        const smudgeY = 120 + getBobOffset();
+        // Smudge (upper-middle left area)
+        const smudgeY = 160 + getBobOffset();
         drawSprite({
             sprite: 'smudge_idle',
-            pos: vec2(width() / 2, smudgeY),
-            scale: 1.8,
+            pos: vec2(200, smudgeY),
+            scale: 1.6,
             anchor: 'center',
         });
 
